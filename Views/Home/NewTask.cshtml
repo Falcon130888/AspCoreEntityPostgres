@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Новая задача</title>
+</head>
+<body>
+    <div>
+        <h3>Форма создания задачи</h3>
+        <p>Для созания задачи заполните следующие поля:</p>
+        <form method="post">
+            <input type="hidden" value="@ViewBag.IdUser" name="IdUser" />
+            <table>
+                <tr>
+                    <td>Название задачи:</td>
+                    <td><input type="text" name="NameTask" /> </td>
+                </tr>
+                <tr>
+                    <td>Дата начала</td>
+                    <td><input type="text" name="DateBegin" /></td>
+                </tr>
+                <tr>
+                    <td>Дата окончания:</td>
+                    <td><input type="text" name="DateEnd" /></td>
+                </tr>
+                <tr>
+                    <td>Тип задачи</td>
+                    <td><input type="text" name="TypeTask" /></td>
+                </tr>
+                <tr><td><input type="submit" value="Отправить" /> </td><td></td></tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

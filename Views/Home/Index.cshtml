@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Магазин смартфонов</title>
+</head>
+<body>
+    <h3>Смартфоны</h3>
+
+    <div class="btn">
+        @{Html.BeginForm("ExportToPDF", "Home", FormMethod.Post);
+            {
+                <input type="submit" class="Button" value="Экспорт в PDF" />
+            }
+        }
+    </div>
+    <table>
+        <tr>
+            <td>ФИО</td>
+            <td>Возраст</td>
+            <td></td>
+        </tr>
+        @foreach (var User in Model)
+        {
+            <tr>
+                <td>@User.Name</td>
+                <td>@User.Age</td>
+                <td><a href="~/Home/NewTask/@User.Id">Подробнее</a></td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
