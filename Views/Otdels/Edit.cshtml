@@ -1,0 +1,36 @@
+﻿@model AspCoreEntityPostgres.Models.Otdel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Изменить</h1>
+
+<h4>Отдел</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id_Otdel" />
+            <div class="form-group">
+                Наименование отдела
+                <input asp-for="NameOtdel" class="form-control" />
+                <span asp-validation-for="NameOtdel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Руководитель
+                <input asp-for="LeadOtdel" class="form-control" />
+                <span asp-validation-for="LeadOtdel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">К списку отделов</a>
+</div>
+

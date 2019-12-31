@@ -14,16 +14,13 @@ using AspCoreEntityPostgres.DBcontext;
 
 namespace AspCoreEntityPostgres.Controllers
 {
-
     public class HomeController : Controller
     {
-        ApplicationContext db;
-
+        private ApplicationContext db;
         public HomeController(ApplicationContext context)
         {
             db = context;
         }
-
         public IActionResult Index()
         {
             //HtmlToPdfConverter converter = new HtmlToPdfConverter();
@@ -45,30 +42,39 @@ namespace AspCoreEntityPostgres.Controllers
             return View();
         }
 
-
         [HttpGet]
-        public IActionResult NewTask(int? id)
+        public IActionResult NewTask(int? Id_User)
         {
-            if (id == null) return RedirectToAction("Index");
-            ViewBag.IdUser = id;
+            if (Id_User == null) return RedirectToAction("Index");
+            ViewBag.Id_User = Id_User;
             return View();
         }
 
         [HttpPost]
         public string NewTask(Models.Task task)
         {
-            task.Id = 1;
-            task.IdUser = 1;
-            task.DateBegin = DateTime.Now;
-            task.DateEnd = DateTime.Now;
-            task.NameTask = "123123";
-            task.TypeTask = "312312";
 
             db.Tasks.Add(task);
             // сохраняем в бд все изменения
             db.SaveChanges();
-            return "Спасибо, " + task.NameTask + ", за покупку!";
+            if (task !=null) return "Задача, " + task.NameTask + ", создана!";
+            return "не удалось создать задачу!";
         }
+
+        //[HttpGet]
+        //public  IActionResult New()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public string New(User user)
+        //{
+        //    db.Users.Add(user);
+        //    // сохраняем в бд все изменения
+        //    db.SaveChanges();
+        //    return "Пользователь, " + user.Name + ", зарегистрирован!";
+        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

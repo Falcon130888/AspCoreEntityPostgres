@@ -1,0 +1,30 @@
+﻿@model AspCoreEntityPostgres.Models.Otdel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Детали</h1>
+
+<div>
+    <h4>Отделы</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+           Наименование отдела
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NameOtdel)
+        </dd>
+        <dt class = "col-sm-2">
+            Руководитель 
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LeadOtdel)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id_Otdel">Изменить</a> |
+    <a asp-action="Index">К списку отделов</a>
+</div>

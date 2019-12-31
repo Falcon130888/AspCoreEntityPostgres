@@ -1,0 +1,39 @@
+﻿@model IEnumerable<AspCoreEntityPostgres.Models.Dolzh>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Должности</h1>
+<p>
+    <a asp-action="Create">Создать новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                Наименование должности
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id_Otdel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameDolzh)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id_Dolzh">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.Id_Dolzh">Подробно</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id_Dolzh">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

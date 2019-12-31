@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная страница";
 }
 
 
@@ -7,32 +7,34 @@
 
 <html>
 <head>
-    <title>Магазин смартфонов</title>
+    <title>ZIK_ECM завод им С.М. Кирова</title>
 </head>
 <body>
-    <h3>Смартфоны</h3>
+    <h3>Добро подаловать в ZIK_ECM</h3>
 
-    <div class="btn">
-        @{Html.BeginForm("ExportToPDF", "Home", FormMethod.Post);
-            {
-                <input type="submit" class="Button" value="Экспорт в PDF" />
-            }
-        }
+    <div class="row mb-4">
+        <div class="col-1 themed-grid-col"><b>№</b></div>
+        <div class="col-2 themed-grid-col"><b>ФИО сотрудника</b></div>
+        <div class="col-1 themed-grid-col"><b>Возраст</b></div>
+        <div class="col-3 themed-grid-col"><b>Действия</b></div>
     </div>
-    <table>
-        <tr>
-            <td>ФИО</td>
-            <td>Возраст</td>
-            <td></td>
-        </tr>
-        @foreach (var User in Model)
-        {
-            <tr>
-                <td>@User.Name</td>
-                <td>@User.Age</td>
-                <td><a href="~/Home/NewTask/@User.Id">Подробнее</a></td>
-            </tr>
-        }
-    </table>
+
+    @foreach (var User in Model)
+    {
+        <div class="row mb-4">
+            <div class="col-1 themed-grid-col">@User.Id_User</div>
+            <div class="col-2 themed-grid-col">@User.Name</div>
+            <div class="col-1 themed-grid-col">@User.Age</div>
+
+            <div class="col-3 themed-grid-col">
+                <form method="get" action="Home/NewTask">
+                    <input type="hidden" id="" value="@User.Id_User " name="Id_User" />
+                    <input type="submit" value="Создать задачу" />
+                </form>
+            </div>
+        </div>
+    }
+
+    <div class="container-fluid themed-container">.container-fluid</div>
 </body>
 </html>

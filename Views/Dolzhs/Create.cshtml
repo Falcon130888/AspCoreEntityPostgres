@@ -1,0 +1,34 @@
+﻿@model AspCoreEntityPostgres.Models.Dolzh
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Создать</h1>
+
+<h4>Должность</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                Отдел
+                <input asp-for="Id_Otdel" class="form-control" />
+                <span asp-validation-for="Id_Otdel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Наиенование должности
+                <input asp-for="NameDolzh" class="form-control" />
+                <span asp-validation-for="NameDolzh" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">К списку должностей</a>
+</div>

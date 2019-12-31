@@ -7,9 +7,10 @@ namespace AspCoreEntityPostgres.DBcontext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Task> Tasks { get; set; }
+        public DbSet<Otdel> Otdels { get; set; }
+        public DbSet<Dolzh> Dolzhs { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
-    : base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
