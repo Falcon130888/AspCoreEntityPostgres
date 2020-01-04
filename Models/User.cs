@@ -9,9 +9,9 @@ namespace AspCoreEntityPostgres.Models
     public class User
     {
         [Key]
-        public int Id_User { get; set; }
-        public int Id_Otdel { get; set; }
-        public int Id_Dolzh { get; set; }
+        public int IdUser { get; set; }
+        public int IdOtdel { get; set; }
+        public int IdDolzh { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
     }

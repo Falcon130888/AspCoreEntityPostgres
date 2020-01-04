@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
+using AspCoreEntityPostgres.ViewModel;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -34,7 +35,7 @@ namespace AspCoreEntityPostgres.Controllers
             }
 
             var dolzh = await _context.Dolzhs
-                .FirstOrDefaultAsync(m => m.Id_Dolzh == id).ConfigureAwait(false);
+                .FirstOrDefaultAsync(m => m.IdDolzh == id).ConfigureAwait(false);
             if (dolzh == null)
             {
                 return NotFound();
@@ -47,7 +48,12 @@ namespace AspCoreEntityPostgres.Controllers
         // GET: Dolzhs/Create
         public IActionResult Create()
         {
-            return View();
+            CreateDolzhViewModel CVM = new CreateDolzhViewModel
+            {
+                OtdelList =  _context.Otdels.ToList()
+            };
+            CVM.Otdels = new SelectList(CVM.OtdelList, "IdOtdel", "NameOtdel");
+            return View(CVM);
         }
 
         // POST: Dolzhs/Create
@@ -55,10 +61,11 @@ namespace AspCoreEntityPostgres.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_Dolzh,Id_Otdel,NameDolzh")] Dolzh dolzh)
+        public async Task<IActionResult> Create([Bind("IdDolzh,IdOtdel,NameDolzh")] Dolzh dolzh)
         {
             if (ModelState.IsValid)
             {
+
                 _context.Add(dolzh);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction(nameof(Index));
@@ -87,11 +94,11 @@ namespace AspCoreEntityPostgres.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id_Dolzh,Id_Otdel,NameDolzh")] Dolzh dolzh)
+        public async Task<IActionResult> Edit(int id, [Bind("IdDolzh,IdOtdel,NameDolzh")] Dolzh dolzh)
         {
             if (dolzh != null)
             {
-                if (id != dolzh.Id_Dolzh)
+                if (id != dolzh.IdDolzh)
                 {
                     return NotFound();
                 }
@@ -106,7 +113,7 @@ namespace AspCoreEntityPostgres.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DolzhExists(dolzh.Id_Dolzh))
+                    if (!DolzhExists(dolzh.IdDolzh))
                     {
                         return NotFound();
                     }
@@ -131,7 +138,7 @@ namespace AspCoreEntityPostgres.Controllers
             }
 
             var dolzh = await _context.Dolzhs
-                .FirstOrDefaultAsync(m => m.Id_Dolzh == id).ConfigureAwait(false);
+                .FirstOrDefaultAsync(m => m.IdDolzh == id).ConfigureAwait(false);
             if (dolzh == null)
             {
                 return NotFound();
@@ -153,7 +160,7 @@ namespace AspCoreEntityPostgres.Controllers
 
         private bool DolzhExists(int id)
         {
-            return _context.Dolzhs.Any(e => e.Id_Dolzh == id);
+            return _context.Dolzhs.Any(e => e.IdDolzh == id);
         }
     }
 }

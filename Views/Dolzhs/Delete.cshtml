@@ -12,10 +12,10 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id_Otdel)
+            @Html.DisplayNameFor(model => model.IdOtdel)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id_Otdel)
+            @Html.DisplayFor(model => model.IdOtdel)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NameDolzh)
@@ -26,7 +26,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id_Dolzh" />
+        <input type="hidden" asp-for="IdDolzh" />
         <input type="submit" value="Удалить" class="btn btn-danger" /> |
         <a asp-action="Index">К списку должностей</a>
     </form>

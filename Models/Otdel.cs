@@ -9,7 +9,7 @@ namespace AspCoreEntityPostgres.Models
     public class Otdel
     {
         [Key]
-        public int Id_Otdel { get; set; }
+        public int IdOtdel { get; set; }
         public string NameOtdel { get; set; }
         public string LeadOtdel { get; set; }
     }

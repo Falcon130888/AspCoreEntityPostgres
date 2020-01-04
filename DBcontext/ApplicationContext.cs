@@ -10,14 +10,21 @@ namespace AspCoreEntityPostgres.DBcontext
         public DbSet<Otdel> Otdels { get; set; }
         public DbSet<Dolzh> Dolzhs { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=ZIK_ECM;Username=postgres;Password=2030");
+            modelBuilder.Entity<Dolzh>().HasOne(d => d.Otdel);
+       }
+
+
+     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
+
+     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("data source=STAS;initial catalog=ZIK_ECM; Integrated Security=True");
         }
     }
 }

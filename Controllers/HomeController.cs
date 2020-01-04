@@ -43,10 +43,10 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         [HttpGet]
-        public IActionResult NewTask(int? Id_User)
+        public IActionResult NewTask(int? IdUser)
         {
-            if (Id_User == null) return RedirectToAction("Index");
-            ViewBag.Id_User = Id_User;
+            if (IdUser == null) return RedirectToAction("Index");
+            ViewBag.IdUser = IdUser;
             return View();
         }
 

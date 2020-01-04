@@ -31,7 +31,7 @@ namespace AspCoreEntityPostgres
             // получаем строку подключения из файла конфигурации
             string connection = Configuration.GetConnectionString("DefaultConnection");
             // добавляем контекст MobileContext в качестве сервиса в приложение
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationContext>(opt =>opt.UseNpgsql(connection));
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationContext>(opt =>opt.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

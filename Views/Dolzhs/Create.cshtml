@@ -1,5 +1,6 @@
-﻿@model AspCoreEntityPostgres.Models.Dolzh
-
+﻿@*@model AspCoreEntityPostgres.Models.Dolzh*@
+@using AspCoreEntityPostgres.ViewModel
+@model CreateDolzhViewModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -12,15 +13,15 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 Отдел
-                <input asp-for="Id_Otdel" class="form-control" />
-                <span asp-validation-for="Id_Otdel" class="text-danger"></span>
+                @Html.DropDownListFor(m => m.dolzh.IdOtdel, Model.Otdels, "Выберите отдел", new { @class = "form-control mb-2 mr-sm-2" })
             </div>
             <div class="form-group">
                 Наиенование должности
-                <input asp-for="NameDolzh" class="form-control" />
-                <span asp-validation-for="NameDolzh" class="text-danger"></span>
+                <input asp-for="@Model.dolzh.NameDolzh" class="form-control" />
+                <span asp-validation-for="@Model.dolzh.NameDolzh" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Создать" class="btn btn-primary" />

@@ -34,7 +34,7 @@ namespace AspCoreEntityPostgres.Controllers
             }
 
             var otdel = await _context.Otdels
-                .FirstOrDefaultAsync(m => m.Id_Otdel == id).ConfigureAwait(false);
+                .FirstOrDefaultAsync(m => m.IdOtdel == id).ConfigureAwait(false);
             if (otdel == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace AspCoreEntityPostgres.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id_Otdel,NameOtdel,LeadOtdel")] Otdel otdel)
         {
 
-            if (id != otdel.Id_Otdel)
+            if (id != otdel.IdOtdel)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace AspCoreEntityPostgres.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OtdelExists(otdel.Id_Otdel))
+                    if (!OtdelExists(otdel.IdOtdel))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace AspCoreEntityPostgres.Controllers
             }
 
             var otdel = await _context.Otdels
-                .FirstOrDefaultAsync(m => m.Id_Otdel == id).ConfigureAwait(false);
+                .FirstOrDefaultAsync(m => m.IdOtdel == id).ConfigureAwait(false);
             if (otdel == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace AspCoreEntityPostgres.Controllers
 
         private bool OtdelExists(int id)
         {
-            return _context.Otdels.Any(e => e.Id_Otdel == id);
+            return _context.Otdels.Any(e => e.IdOtdel == id);
         }
     }
 }
