@@ -10,6 +10,7 @@ namespace AspCoreEntityPostgres.ViewModel
 {
     public class CreateDolzhViewModel
     {
+
         public List<Otdel> OtdelList { get; set; } 
         public SelectList Otdels { get; set; }
 

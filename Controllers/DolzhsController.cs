@@ -50,9 +50,9 @@ namespace AspCoreEntityPostgres.Controllers
         {
             CreateDolzhViewModel CVM = new CreateDolzhViewModel
             {
-                OtdelList =  _context.Otdels.ToList()
+                OtdelList = _context.Otdels.ToList(),
+                Otdels = new SelectList(_context.Otdels.ToList(), "IdOtdel", "NameOtdel")
             };
-            CVM.Otdels = new SelectList(CVM.OtdelList, "IdOtdel", "NameOtdel");
             return View(CVM);
         }
 
