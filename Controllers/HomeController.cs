@@ -16,7 +16,7 @@ namespace AspCoreEntityPostgres.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationContext db;
+        private readonly ApplicationContext db;
         public HomeController(ApplicationContext context)
         {
             db = context;

@@ -1,31 +1,25 @@
 ﻿@{
     ViewData["Title"] = "Главная страница";
 }
-
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>ZIK_ECM завод им С.М. Кирова</title>
 </head>
 <body>
-    <h3>Добро подаловать в ZIK_ECM</h3>
-
+    <h3>Добро пожаловать в ZIK_ECM</h3>
     <div class="row mb-4">
         <div class="col-1 themed-grid-col"><b>№</b></div>
-        <div class="col-2 themed-grid-col"><b>ФИО сотрудника</b></div>
-        <div class="col-1 themed-grid-col"><b>Возраст</b></div>
+        <div class="col-2 themed-grid-col"><b>ФИО</b></div>
+        <div class="col-1 themed-grid-col"><b>Логин</b></div>
         <div class="col-3 themed-grid-col"><b>Действия</b></div>
     </div>
-
     @foreach (var User in Model)
     {
         <div class="row mb-4">
             <div class="col-1 themed-grid-col">@User.IdUser</div>
-            <div class="col-2 themed-grid-col">@User.Name</div>
-            <div class="col-1 themed-grid-col">@User.Age</div>
-
+            <div class="col-2 themed-grid-col">@User.UserFIO</div>
+            <div class="col-1 themed-grid-col">@User.UserAdLogin</div>
             <div class="col-3 themed-grid-col">
                 <form method="get" action="Home/NewTask">
                     <input type="hidden" id="" value="@User.IdUser " name="IdUser" />
@@ -34,7 +28,5 @@
             </div>
         </div>
     }
-
-    <div class="container-fluid themed-container">.container-fluid</div>
 </body>
 </html>

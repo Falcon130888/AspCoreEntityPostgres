@@ -1,0 +1,81 @@
+﻿@model AspCoreEntityPostgres.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+        // Заполняем таблицу должностей по IdOtdel
+        $('#otdels').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetItems")/' + id,
+                success: function (data) {
+                    // заменяем содержимое присланным частичным представлением
+                    $('#IdDolzh').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+}
+
+<h1>Добавить</h1>
+
+<h4>Пользователь</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                ФИО
+                <input asp-for="UserFIO" class="form-control" />
+                <span asp-validation-for="UserFIO" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Логин ОС
+                <input asp-for="UserAdLogin" class="form-control" />
+                <span asp-validation-for="UserAdLogin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Пароль
+                <input asp-for="UserPassword" class="form-control" />
+                <span asp-validation-for="UserPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Логин
+                <input asp-for="UserLogin" class="form-control" />
+                <span asp-validation-for="UserLogin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserConf" class="control-label"></label>
+                <input asp-for="UserConf" value="5" class="form-control" />
+                <span asp-validation-for="UserConf" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                Отдел
+                <select id="otdels" asp-for="IdOtdel" class="form-control" asp-items="ViewBag.IdOtdel"></select>
+            </div>
+            <div class="form-group">
+                Должность
+                <select id="IdDolzh" asp-for="IdDolzh" class="form-control" asp-items="ViewBag.IdDolzh"></select>
+            </div>
+            <div class="form-group">
+                Роль
+                <select asp-for="IdRole" class="form-control" asp-items="ViewBag.IdRole"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Вернуться к списку</a>
+</div>

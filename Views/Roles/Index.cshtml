@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AspCoreEntityPostgres.Models.Role>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Роли</h1>
+<p>
+    <a asp-action="Create">Создать новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Роль:
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameRole)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdRole">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdRole">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdRole">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

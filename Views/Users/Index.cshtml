@@ -1,0 +1,63 @@
+﻿@model IEnumerable<AspCoreEntityPostgres.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Пользователи</h1>
+<p>
+    <a asp-action="Create">Создать нового</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ФИО
+            </th>
+            <th>
+                Логин ОС
+            </th>
+            <th>
+                Логин
+            </th>
+            <th>
+                Отдел
+            </th>
+            <th>
+                Должность
+            </th>
+            <th>
+                Роль
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserFIO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAdLogin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserLogin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dolzh.NameDolzh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.NameRole)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdUser">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdUser">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdUser">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

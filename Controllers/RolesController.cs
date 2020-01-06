@@ -10,22 +10,22 @@ using AspCoreEntityPostgres.Models;
 
 namespace AspCoreEntityPostgres.Controllers
 {
-    public class OtdelsController : Controller
+    public class RolesController : Controller
     {
         private readonly ApplicationContext _context;
 
-        public OtdelsController(ApplicationContext context)
+        public RolesController(ApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Otdels
+        // GET: Roles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Otdels.ToListAsync().ConfigureAwait(false));
+            return View(await _context.Roles.ToListAsync().ConfigureAwait(false));
         }
 
-        // GET: Otdels/Details/5
+        // GET: Roles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace AspCoreEntityPostgres.Controllers
                 return NotFound();
             }
 
-            var otdel = await _context.Otdels
-                .FirstOrDefaultAsync(m => m.IdOtdel == id).ConfigureAwait(false);
-            if (otdel == null)
+            var role = await _context.Roles
+                .FirstOrDefaultAsync(m => m.IdRole == id).ConfigureAwait(false);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(otdel);
+            return View(role);
         }
 
-        // GET: Otdels/Create
+        // GET: Roles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Otdels/Create
+        // POST: Roles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_Otdel,NameOtdel,LeadOtdel")] Otdel otdel)
+        public async Task<IActionResult> Create([Bind("IdRole,NameRole")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(otdel);
+                _context.Add(role);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction(nameof(Index));
             }
-            return View(otdel);
+            return View(role);
         }
 
-        // GET: Otdels/Edit/5
+        // GET: Roles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,23 +73,22 @@ namespace AspCoreEntityPostgres.Controllers
                 return NotFound();
             }
 
-            var otdel = await _context.Otdels.FindAsync(id);
-            if (otdel == null)
+            var role = await _context.Roles.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            return View(otdel);
+            return View(role);
         }
 
-        // POST: Otdels/Edit/5
+        // POST: Roles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdOtdel,NameOtdel,LeadOtdel")] Otdel otdel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRole,NameRole")] Role role)
         {
-
-            if (id != otdel.IdOtdel)
+            if (id != role.IdRole)
             {
                 return NotFound();
             }
@@ -98,12 +97,12 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 try
                 {
-                    _context.Update(otdel);
+                    _context.Update(role);
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OtdelExists(otdel.IdOtdel))
+                    if (!RoleExists(role.IdRole))
                     {
                         return NotFound();
                     }
@@ -114,10 +113,10 @@ namespace AspCoreEntityPostgres.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(otdel);
+            return View(role);
         }
 
-        // GET: Otdels/Delete/5
+        // GET: Roles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +124,30 @@ namespace AspCoreEntityPostgres.Controllers
                 return NotFound();
             }
 
-            var otdel = await _context.Otdels
-                .FirstOrDefaultAsync(m => m.IdOtdel == id).ConfigureAwait(false);
-            if (otdel == null)
+            var role = await _context.Roles
+                .FirstOrDefaultAsync(m => m.IdRole == id).ConfigureAwait(false);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(otdel);
+            return View(role);
         }
 
-        // POST: Otdels/Delete/5
+        // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var otdel = await _context.Otdels.FindAsync(id);
-            _context.Otdels.Remove(otdel);
+            var role = await _context.Roles.FindAsync(id);
+            _context.Roles.Remove(role);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OtdelExists(int id)
+        private bool RoleExists(int id)
         {
-            return _context.Otdels.Any(e => e.IdOtdel == id);
+            return _context.Roles.Any(e => e.IdRole == id);
         }
     }
 }

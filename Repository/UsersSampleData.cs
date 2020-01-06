@@ -10,6 +10,29 @@ namespace AspCoreEntityPostgres.Repository
         public static void Initialize(ApplicationContext context)
         {
 
+            if (!context.Roles.Any())
+            {
+                context.Roles.AddRange(
+                    new Role
+                    {
+                        NameRole = "Администратор"
+                    },
+                    new Role
+                    {
+                        NameRole = "ГДО"
+                    },
+                    new Role
+                    {
+                        NameRole = "Бухгалтерия"
+                    },
+                    new Role
+                    {
+                        NameRole = "Читатель"
+                    }
+                );
+                context.SaveChanges();
+            }
+
             if (!context.Otdels.Any())
             {
                 context.Otdels.AddRange(
@@ -54,24 +77,36 @@ namespace AspCoreEntityPostgres.Repository
                 context.Users.AddRange(
                     new User
                     {
-                        Name = "Stas",
-                        Age = 25,
+                        UserFIO = "Нейфельд С.В.",
+                        UserAdLogin = "NeyfeldSV",
+                        UserPassword = "",
+                        UserLogin = "Нейфельд",
+                        UserConf = 5,
                         IdDolzh =1,
                         IdOtdel =1,
+                        IdRole = 1,
                     },
                     new User
                     {
-                        Name = "Anton",
-                        Age = 30,
+                        UserFIO = "Иванов С.В.",
+                        UserAdLogin = "Ivanov",
+                        UserPassword = "",
+                        UserLogin = "Иванов",
+                        UserConf = 5,
                         IdDolzh = 1,
                         IdOtdel = 1,
+                        IdRole = 1,
                     },
                     new User
                     {
-                        Name = "Vasya",
-                        Age = 35,
+                        UserFIO = "Петров С.В.",
+                        UserAdLogin = "Petrov",
+                        UserPassword = "",
+                        UserLogin = "Петров",
+                        UserConf = 5,
                         IdDolzh = 1,
                         IdOtdel = 1,
+                        IdRole = 1,
                     }
                 );
                 context.SaveChanges();

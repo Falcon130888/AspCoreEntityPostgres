@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>
-                №
+                Отдел
             </th>
             <th>
                 Наименование должности
@@ -23,7 +23,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdOtdel)
+                @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NameDolzh)

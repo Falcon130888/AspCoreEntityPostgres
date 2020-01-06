@@ -11,9 +11,9 @@ namespace AspCoreEntityPostgres.Models
         [Key]
         public int IdTask { get; set; }
         public int IdUser { get; set; }
-      public  string NameTask { get; set; }
-      public DateTime DateBegin { get; set; }
-      public DateTime DateEnd { get; set; }
-      public string TypeTask { get; set; }
+        public  string NameTask { get; set; }
+        public DateTime DateBegin { get; set; }
+        public DateTime DateEnd { get; set; }
+        public string TypeTask { get; set; }
     }
 }

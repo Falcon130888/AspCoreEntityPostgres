@@ -1,5 +1,6 @@
 ﻿using AspCoreEntityPostgres.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AspCoreEntityPostgres.DBcontext
 {
@@ -9,13 +10,16 @@ namespace AspCoreEntityPostgres.DBcontext
         public DbSet<Task> Tasks { get; set; }
         public DbSet<Otdel> Otdels { get; set; }
         public DbSet<Dolzh> Dolzhs { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
 
-     protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public static readonly ILoggerFactory MyLoggerFactory
+            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Dolzh>().HasOne(d => d.Otdel);
        }
-
 
      public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
@@ -24,7 +28,7 @@ namespace AspCoreEntityPostgres.DBcontext
 
      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("data source=STAS;initial catalog=ZIK_ECM; Integrated Security=True");
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory).UseNpgsql("Host=localhost;Port=5432;Database=ZIK_ECM;Username=postgres;Password=2030");
         }
     }
 }

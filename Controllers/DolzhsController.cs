@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,7 +21,7 @@ namespace AspCoreEntityPostgres.Controllers
         // GET: Dolzhs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Dolzhs.ToListAsync().ConfigureAwait(false));
+            return View(await _context.Dolzhs.Include(c => c.Otdel).ToListAsync().ConfigureAwait(false));
         }
 
         // GET: Dolzhs/Details/5
@@ -48,9 +46,8 @@ namespace AspCoreEntityPostgres.Controllers
         // GET: Dolzhs/Create
         public IActionResult Create()
         {
-            CreateDolzhViewModel CVM = new CreateDolzhViewModel
+            DolzhViewModel CVM = new DolzhViewModel
             {
-                OtdelList = _context.Otdels.ToList(),
                 Otdels = new SelectList(_context.Otdels.ToList(), "IdOtdel", "NameOtdel")
             };
             return View(CVM);
@@ -76,17 +73,12 @@ namespace AspCoreEntityPostgres.Controllers
         // GET: Dolzhs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            DolzhViewModel CVM = new DolzhViewModel
             {
-                return NotFound();
-            }
-
-            var dolzh = await _context.Dolzhs.FindAsync(id);
-            if (dolzh == null)
-            {
-                return NotFound();
-            }
-            return View(dolzh);
+                Dolzh = await _context.Dolzhs.FindAsync(id)
+            };
+            CVM.Otdels = new SelectList(_context.Otdels.ToList(), "IdOtdel", "NameOtdel", CVM.Dolzh.IdOtdel);
+            return View(CVM);
         }
 
         // POST: Dolzhs/Edit/5
@@ -102,8 +94,6 @@ namespace AspCoreEntityPostgres.Controllers
                 {
                     return NotFound();
                 }
-            
-
             if (ModelState.IsValid)
             {
                 try
@@ -137,13 +127,13 @@ namespace AspCoreEntityPostgres.Controllers
                 return NotFound();
             }
 
-            var dolzh = await _context.Dolzhs
+            var dolzh = await _context.Dolzhs.Include(c => c.Otdel)
                 .FirstOrDefaultAsync(m => m.IdDolzh == id).ConfigureAwait(false);
             if (dolzh == null)
             {
                 return NotFound();
             }
-
+ 
             return View(dolzh);
         }
 
