@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
 using AspCoreEntityPostgres.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -120,6 +121,7 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         // GET: Dolzhs/Delete/5
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,7 +135,6 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 return NotFound();
             }
- 
             return View(dolzh);
         }
 

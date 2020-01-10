@@ -10,6 +10,18 @@ namespace AspCoreEntityPostgres.Repository
         public static void Initialize(ApplicationContext context)
         {
 
+            if (!context.Otdels.Any())
+            {
+                context.Otdels.AddRange(
+                    new Otdel
+                    {
+                        NameOtdel = "Канцелярия",
+                        LeadOtdel = "Иванов",
+                    }
+                );
+                context.SaveChanges();
+            }
+
             if (!context.Roles.Any())
             {
                 context.Roles.AddRange(
@@ -28,18 +40,6 @@ namespace AspCoreEntityPostgres.Repository
                     new Role
                     {
                         NameRole = "Читатель"
-                    }
-                );
-                context.SaveChanges();
-            }
-
-            if (!context.Otdels.Any())
-            {
-                context.Otdels.AddRange(
-                    new Otdel
-                    {
-                        NameOtdel = "Канцелярия",
-                        LeadOtdel = "Иванов",
                     }
                 );
                 context.SaveChanges();

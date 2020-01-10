@@ -88,7 +88,6 @@ namespace AspCoreEntityPostgres.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdOtdel,NameOtdel,LeadOtdel")] Otdel otdel)
         {
-
             if (id != otdel.IdOtdel)
             {
                 return NotFound();

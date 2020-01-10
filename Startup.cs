@@ -1,10 +1,12 @@
 using AspCoreEntityPostgres.DBcontext;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace AspCoreEntityPostgres
 {
@@ -27,6 +29,16 @@ namespace AspCoreEntityPostgres
             string connection = Configuration.GetConnectionString("DefaultConnection");
             // добавляем контекст DBContext в качестве сервиса в приложение
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationContext>(opt =>opt.UseNpgsql(connection));
+
+            // установка конфигурации подключения
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(40);
+                    options.SlidingExpiration = true;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,7 +58,8 @@ namespace AspCoreEntityPostgres
             app.UseStaticFiles();
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();    // аутентификация
+            app.UseAuthorization();     // авторизация
 
             app.UseEndpoints(endpoints =>
             {

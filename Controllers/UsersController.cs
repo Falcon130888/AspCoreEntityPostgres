@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
+using AspCoreEntityPostgres.ViewModel;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -20,10 +21,14 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationContext = _context.Users.Include(u => u.Dolzh).Include(u => u.Otdel).Include(u => u.Role);
-            return View(await applicationContext.ToListAsync().ConfigureAwait(false));
+            UserViewModel UVM = new UserViewModel
+            {
+                Otdels = new SelectList(_context.Otdels.ToList(), "IdOtdel", "NameOtdel"),
+                Users = _context.Users.Include(u => u.Dolzh).Include(u => u.Otdel).Include(u => u.Role)
+            };
+            return View(UVM);
         }
 
         // GET: Users/Details/5
@@ -61,6 +66,30 @@ namespace AspCoreEntityPostgres.Controllers
         {
             ViewData["IdDolzh"] = new SelectList(_context.Dolzhs.Where(c => c.IdOtdel == id), "IdDolzh", "NameDolzh");
             return PartialView();
+        }
+
+        //поиск по фио
+        public ActionResult GetUsers(string id, int? idotdel)
+        {
+
+            UserViewModel UVM = new UserViewModel();
+            if( idotdel != null)
+            {
+                    UVM.Users = _context.Users.Include(d => d.Dolzh).Include(o => o.Otdel).Include(u => u.Role).Where(d => d.IdOtdel == idotdel);
+            }
+            else
+            {
+                if(id == null)
+                {
+                    UVM.Users = _context.Users.Include(d => d.Dolzh).Include(o => o.Otdel).Include(u => u.Role);
+                }
+                else
+                {
+                    UVM.Users = _context.Users.Include(d => d.Dolzh).Include(o => o.Otdel).Include(u => u.Role).Where(fio => fio.UserFIO.Contains(id));
+                }
+            }
+        
+            return PartialView(UVM);
         }
 
         // POST: Users/Create
@@ -114,6 +143,7 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 try
                 {
+                    if (user.UserPassword == null) user.UserPassword = ""; // это исправить
                     _context.Update(user);
                     await _context.SaveChangesAsync().ConfigureAwait(false);
                 }
@@ -130,9 +160,6 @@ namespace AspCoreEntityPostgres.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdDolzh"] = new SelectList(_context.Dolzhs, "IdDolzh", "IdDolzh", user.IdDolzh);
-            ViewData["IdOtdel"] = new SelectList(_context.Otdels, "IdOtdel", "IdOtdel", user.IdOtdel);
-            ViewData["IdRole"] = new SelectList(_context.Roles, "IdRole", "IdRole", user.IdRole);
             return View(user);
         }
 

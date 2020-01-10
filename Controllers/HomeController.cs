@@ -11,31 +11,53 @@ using Syncfusion.Pdf;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using AspCoreEntityPostgres.DBcontext;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AspCoreEntityPostgres.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly ApplicationContext db;
         public HomeController(ApplicationContext context)
         {
             db = context;
         }
+
+        [Authorize]
         public IActionResult Index()
         {
-            //HtmlToPdfConverter converter = new HtmlToPdfConverter();
-            //WebKitConverterSettings settings = new WebKitConverterSettings();
-            ////Set WebKit path
-            //settings.WebKitPath = Path.Combine(_hostingEnvironment.ContentRootPath, "QtBinariesWindows");
-
-            //converter.ConverterSettings = settings;
-            ////Convert URL to PDF
-            //PdfDocument document = converter.Convert("https://localhost:44359/Home/Index");
-            //MemoryStream stream = new MemoryStream();
-            //document.Save(stream);
-            //return File(stream.ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Output.pdf");
-            return View(db.Users.ToList());
+            ViewData["Users"] = db.Users.ToList();
+            ViewData["UserFIO"] = User.Identity.Name;
+            return View();
+           // return View(db.Users.ToList());
+           // return Content(User.Identity.Name);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync().ConfigureAwait(false);
+            return RedirectToAction("Index", "Home");
+        }
+
+        //public IActionResult Index()
+        //{
+        //    //HtmlToPdfConverter converter = new HtmlToPdfConverter();
+        //    //WebKitConverterSettings settings = new WebKitConverterSettings();
+        //    ////Set WebKit path
+        //    //settings.WebKitPath = Path.Combine(_hostingEnvironment.ContentRootPath, "QtBinariesWindows");
+
+        //    //converter.ConverterSettings = settings;
+        //    ////Convert URL to PDF
+        //    //PdfDocument document = converter.Convert("https://localhost:44359/Home/Index");
+        //    //MemoryStream stream = new MemoryStream();
+        //    //document.Save(stream);
+        //    //return File(stream.ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Output.pdf");
+
+        //    return View(db.Users.ToList());
+        //}
 
         public IActionResult Privacy()
         {
@@ -60,21 +82,6 @@ namespace AspCoreEntityPostgres.Controllers
             if (task !=null) return "Задача, " + task.NameTask + ", создана!";
             return "не удалось создать задачу!";
         }
-
-        //[HttpGet]
-        //public  IActionResult New()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public string New(User user)
-        //{
-        //    db.Users.Add(user);
-        //    // сохраняем в бд все изменения
-        //    db.SaveChanges();
-        //    return "Пользователь, " + user.Name + ", зарегистрирован!";
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,11 +1,58 @@
-﻿@model IEnumerable<AspCoreEntityPostgres.Models.User>
+﻿@*@model IEnumerable<AspCoreEntityPostgres.Models.User>*@
+@using AspCoreEntityPostgres.ViewModel
+@model UserViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            // Заполняем таблицу должностей по IdOtdel
+            $('#searching').on('input', function () {
+                // получаем выбранный id
+                var text = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetUsers")/' + text,
+                    success: function (data) {
+                        // заменяем содержимое присланным частичным представлением
+                        $('#users').replaceWith(data);
+                    }
+                });
+            });
+        });
+        $(function () {
+        // Заполняем таблицу должностей по IdOtdel
+        $('#otdels').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetUsers")/?id=' + id + '&idotdel='+ id,
+                success: function (data) {
+                    // заменяем содержимое присланным частичным представлением
+                    $('#users').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+}
 <h1>Пользователи</h1>
 <p>
-    <a asp-action="Create">Создать нового</a>
+<div style="float:left;">
+<a asp-action="Create">Создать нового</a>
+</div>
+<div style="float:left;">
+    @Html.TextBox("searching", null, new { @placeholder = "Найти по ФИО", @id = "searching", @class = "form-control" })
+</div>
+<div style="float:left;">
+    @Html.DropDownList("otdels", Model.Otdels, "Выберите отдел", new { @class = "form-control", @id = "otdels" })
+</div>
+
 </p>
 <table class="table">
     <thead>
@@ -31,33 +78,34 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserFIO)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAdLogin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserLogin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dolzh.NameDolzh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.NameRole)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdUser">Изменить</a> |
-                <a asp-action="Details" asp-route-id="@item.IdUser">Детали</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdUser">Удалить</a>
-            </td>
-        </tr>
-}
+    <tbody id="users">
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserFIO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserAdLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserLogin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dolzh.NameDolzh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role.NameRole)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdUser">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdUser">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdUser">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

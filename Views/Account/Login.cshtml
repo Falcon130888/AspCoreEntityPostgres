@@ -1,0 +1,36 @@
+﻿@model AspCoreEntityPostgres.ViewModel.LoginModel
+@{ViewData["Title"] = "ZIK-ECM Войти";}
+@{Layout = null;}
+
+<!DOCTYPE html>
+<html >
+<head>
+        <!-- Bootstrap core CSS -->
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="~/css/login.css" rel="stylesheet" />
+</head>
+<body class="text-center">
+    <form class="form-signin" asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+
+        <div class="text-center mb-4">
+            <img class="mb-4" src="~/img/zik2.png" alt="" width="127" height="73">
+        </div>
+
+        <h1 class="h3 mb-3 font-weight-normal">
+            ZIK-ECM
+        </h1>
+
+        <label for="UserLogin" class="sr-only">Введите логин</label>
+        <input type="text" asp-for="UserLogin" class="form-control" placeholder="Логин" required autofocus />
+        <span asp-validation-for="UserLogin" />
+
+        <label for="UserPassword" class="sr-only">Введите пароль</label>
+        <input asp-for="UserPassword" class="form-control" />
+        <span asp-validation-for="UserPassword" />
+        <p></p>
+        <p></p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+    </form>
+</body>
+</html>

@@ -1,14 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] ZIK_ECM</title>
     <link rel="stylesheet" href="~/css/site.css" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
     <header>
+        @{
+            var identity = (ClaimsIdentity)User.Identity;
+            var role = identity.FindFirst(ClaimTypes.Role).Value;
+      
+                <p>
+                     @identity.Name [@role]
+                </p>  
+        }
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ZIK_ECM</a>
@@ -33,6 +43,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Роли</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="btn btn-danger" asp-area="" asp-controller="Home" asp-action="Logout">Выйти</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -45,7 +58,7 @@
     </div>
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - ZIK_ECM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Права</a>
+            &copy; 2019 - ZIK_ECM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфеденциальность</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -14,7 +14,7 @@
         <div class="col-1 themed-grid-col"><b>Логин</b></div>
         <div class="col-3 themed-grid-col"><b>Действия</b></div>
     </div>
-    @foreach (var User in Model)
+    @foreach (var User in ViewBag.Users)
     {
         <div class="row mb-4">
             <div class="col-1 themed-grid-col">@User.IdUser</div>

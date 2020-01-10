@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using AspCoreEntityPostgres.Repository;
 using AspCoreEntityPostgres.DBcontext;
-using System.Resources;
 
 namespace AspCoreEntityPostgres
 {
@@ -13,22 +12,26 @@ namespace AspCoreEntityPostgres
     {
         public static void Main(string[] args)
         {
-            using var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
+            using (var host = CreateHostBuilder(args).Build())
             {
-                var services = scope.ServiceProvider;
-                try
+                using (var scope = host.Services.CreateScope())
                 {
-                    using var context = services.GetRequiredService<ApplicationContext>();
-                    UsersSampleData.Initialize(context);
+                    var services = scope.ServiceProvider;
+                    try
+                    {
+                        using (var context = services.GetRequiredService<ApplicationContext>())
+                        {
+                            UsersSampleData.Initialize(context);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        var logger = services.GetRequiredService<ILogger<Program>>();
+                        logger.LogError(ex, "An error occurred seeding the DB.");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred seeding the DB.");
-                }
+                host.Run();
             }
-            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
