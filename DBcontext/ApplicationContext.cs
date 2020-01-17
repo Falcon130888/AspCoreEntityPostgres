@@ -10,6 +10,7 @@ namespace AspCoreEntityPostgres.DBcontext
         public DbSet<Otdel> Otdels { get; set; }
         public DbSet<Dolzh> Dolzhs { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Memo> Memos { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

@@ -1,0 +1,17 @@
+﻿@using System.Security.Claims;
+
+@{
+    ViewData["Title"] = "Access";
+}
+
+<h1>Доступ</h1>
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    var role = identity.FindFirst(ClaimTypes.Role).Value;
+    <p>
+        Пользователь - @identity.Name [@role]
+    </p>
+    <p>
+        У Вас недостаточно прав для выполнения данной операции.
+    </p>
+}

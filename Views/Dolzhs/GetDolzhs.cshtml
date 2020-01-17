@@ -1,0 +1,22 @@
+﻿@using AspCoreEntityPostgres.ViewModel
+@model DolzhIndexViewModel
+
+
+<tbody id="dolzhs">
+    @foreach (var item in Model.Dolzhs)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameDolzh)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdDolzh">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdDolzh">Подробно</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdDolzh">Удалить</a>
+            </td>
+        </tr>
+    }
+</tbody>

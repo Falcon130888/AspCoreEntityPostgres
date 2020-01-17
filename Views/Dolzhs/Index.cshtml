@@ -1,12 +1,59 @@
-﻿@model IEnumerable<AspCoreEntityPostgres.Models.Dolzh>
+﻿@*@model IEnumerable<AspCoreEntityPostgres.Models.Dolzh>*@
+@using AspCoreEntityPostgres.ViewModel
+@model DolzhIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            // Заполняем таблицу должностей по IdOtdel
+            $('#searching').on('input', function () {
+                // получаем выбранный id
+                var text = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetDolzhs")/' + text,
+                    success: function (data) {
+                        // заменяем содержимое присланным частичным представлением
+                        $('#dolzhs').replaceWith(data);
+                    }
+                });
+            });
+        });
+        $(function () {
+        // Заполняем таблицу должностей по IdOtdel
+        $('#otdels').change(function()
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetDolzhs")/?id=' + id + '&idotdel='+ id,
+                success: function (data) {
+                    // заменяем содержимое присланным частичным представлением
+                    $('#dolzhs').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+}
+
 <h1>Должности</h1>
-<p>
-    <a asp-action="Create">Создать новую</a>
-</p>
+
+<div style="float:left;">
+    <a asp-action="Create">Создать нового</a>
+</div>
+<div style="float:left;">
+    @Html.TextBox("searching", null, new { @placeholder = "Найти по должности", @id = "searching", @class = "form-control" })
+</div>
+<div style="float:left;">
+    @Html.DropDownList("otdels", Model.Otdels, "Выберите отдел", new { @class = "form-control", @id = "otdels" })
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -19,21 +66,22 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NameDolzh)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdDolzh">Изменить</a> |
-                <a asp-action="Details" asp-route-id="@item.IdDolzh">Подробно</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdDolzh">Удалить</a>
-            </td>
-        </tr>
-}
+    <tbody id="dolzhs">
+        @foreach (var item in Model.Dolzhs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Otdel.NameOtdel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameDolzh)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdDolzh">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdDolzh">Подробно</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdDolzh">Удалить</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

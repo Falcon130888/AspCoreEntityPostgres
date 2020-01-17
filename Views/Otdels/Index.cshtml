@@ -4,16 +4,39 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Отделы</h1>
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+        // Заполняем таблицу должностей по IdOtdel
+        $('#searching').on('input', function () 
+        {
+            // получаем выбранный id
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetOtdels")/' + id,
+                success: function (data) {
+                    // заменяем содержимое присланным частичным представлением
+                    $('#otdels').replaceWith(data);
+                }
+            });
+        });
+    })
+    </script>
+}
 
-<p>
-    <a asp-action="Create">Добавить отдел</a>
-</p>
+<h1>Отделы</h1>
+<div style="float:left;">
+    <a asp-action="Create">Создать новый</a>
+</div>
+<div style="float:left;">
+    @Html.TextBox("searching", null, new { @placeholder = "Найти по названию", @id = "searching", @class = "form-control" })
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-               Название подразделения
+                Название подразделения
             </th>
             <th>
                 Руководитель
@@ -21,7 +44,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="otdels">
         @foreach (var item in Model)
         {
             <tr>

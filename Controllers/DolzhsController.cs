@@ -20,9 +20,14 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         // GET: Dolzhs
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Dolzhs.Include(c => c.Otdel).ToListAsync().ConfigureAwait(false));
+            DolzhIndexViewModel DVM = new DolzhIndexViewModel
+            {
+                Otdels = new SelectList(_context.Otdels.ToList(), "IdOtdel", "NameOtdel"),
+                Dolzhs = _context.Dolzhs.Include(c => c.Otdel)
+            };
+            return View(DVM);
         }
 
         // GET: Dolzhs/Details/5
@@ -149,6 +154,28 @@ namespace AspCoreEntityPostgres.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //поиск по названию
+        public ActionResult GetDolzhs(string id, int? idotdel)
+        {
+            DolzhIndexViewModel UVM = new DolzhIndexViewModel();
+            if (idotdel != null)
+            {
+                UVM.Dolzhs = _context.Dolzhs.Include(o => o.Otdel).Where(d => d.IdOtdel == idotdel);
+            }
+            else
+            {
+                if (id == null)
+                {
+                    UVM.Dolzhs = _context.Dolzhs.Include(o => o.Otdel);
+                }
+                else
+                {
+                    UVM.Dolzhs = _context.Dolzhs.Include(o => o.Otdel).Where(fio => fio.NameDolzh.Contains(id));
+                }
+            }
+
+            return PartialView(UVM);
+        }
         private bool DolzhExists(int id)
         {
             return _context.Dolzhs.Any(e => e.IdDolzh == id);

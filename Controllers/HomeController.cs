@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using AspCoreEntityPostgres.Models;
-using Syncfusion.HtmlConverter;
-using Syncfusion.Pdf;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
 using AspCoreEntityPostgres.DBcontext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
@@ -18,7 +11,6 @@ namespace AspCoreEntityPostgres.Controllers
 {
     public class HomeController : Controller
     {
-
         private readonly ApplicationContext db;
         public HomeController(ApplicationContext context)
         {
@@ -31,8 +23,6 @@ namespace AspCoreEntityPostgres.Controllers
             ViewData["Users"] = db.Users.ToList();
             ViewData["UserFIO"] = User.Identity.Name;
             return View();
-           // return View(db.Users.ToList());
-           // return Content(User.Identity.Name);
         }
 
         [HttpGet]
@@ -41,23 +31,6 @@ namespace AspCoreEntityPostgres.Controllers
             await HttpContext.SignOutAsync().ConfigureAwait(false);
             return RedirectToAction("Index", "Home");
         }
-
-        //public IActionResult Index()
-        //{
-        //    //HtmlToPdfConverter converter = new HtmlToPdfConverter();
-        //    //WebKitConverterSettings settings = new WebKitConverterSettings();
-        //    ////Set WebKit path
-        //    //settings.WebKitPath = Path.Combine(_hostingEnvironment.ContentRootPath, "QtBinariesWindows");
-
-        //    //converter.ConverterSettings = settings;
-        //    ////Convert URL to PDF
-        //    //PdfDocument document = converter.Convert("https://localhost:44359/Home/Index");
-        //    //MemoryStream stream = new MemoryStream();
-        //    //document.Save(stream);
-        //    //return File(stream.ToArray(), System.Net.Mime.MediaTypeNames.Application.Pdf, "Output.pdf");
-
-        //    return View(db.Users.ToList());
-        //}
 
         public IActionResult Privacy()
         {

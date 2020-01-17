@@ -1,0 +1,82 @@
+﻿@model AspCoreEntityPostgres.Models.User
+@{Layout = null;}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] ZIK_ECM</title>
+    <link rel="stylesheet" href="~/css/invoice.css" />
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table>
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="~/img/zik2.png" style="width:100px; max-width:60px;" />
+                            </td>
+                            <td>
+                                <h4>Отчет пользоватея: @Model.UserFIO</h4>
+                                <br> Дата отчета: @DateTime.Now.ToShortDateString()
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Логин ОС
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.UserAdLogin)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Логин
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.UserLogin)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Отдел
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Otdel.NameOtdel)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ФИО руководителя
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Otdel.LeadOtdel)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Должность
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Dolzh.NameDolzh)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Роль
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Role.NameRole)
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

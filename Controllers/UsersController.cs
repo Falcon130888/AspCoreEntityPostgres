@@ -8,16 +8,25 @@ using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
 using AspCoreEntityPostgres.ViewModel;
+using jsreport.AspNetCore;
+using jsreport.Types;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Syncfusion.DocIO;
+using Syncfusion.DocIO.DLS;
+using System.Security.Claims;
 
 namespace AspCoreEntityPostgres.Controllers
 {
     public class UsersController : Controller
     {
         private readonly ApplicationContext _context;
-
-        public UsersController(ApplicationContext context)
+        public IJsReportMVCService JsReportMVCService { get; }
+        public UsersController(IJsReportMVCService jsReportMVCService, ApplicationContext context)
         {
             _context = context;
+            JsReportMVCService = jsReportMVCService;
         }
 
         // GET: Users
@@ -31,6 +40,37 @@ namespace AspCoreEntityPostgres.Controllers
             return View(UVM);
         }
 
+        [HttpPost]
+        //[MiddlewareFilter(typeof(JsReportPipeline))]
+        public async Task<IActionResult> ReportAsync(int? IdUser)
+        {
+            User user = await _context.Users
+            .Include(u => u.Dolzh)
+            .Include(u => u.Otdel)
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(m => m.IdUser == IdUser).ConfigureAwait(false);
+
+            FileStream fileStream = new FileStream(@"Files/SZ1.docx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            WordDocument document = new WordDocument(fileStream, FormatType.Automatic);
+            document.Replace("ToFIODolzh", user.UserFIO + " - " + user.Dolzh.NameDolzh, false, true);
+
+            var identity = (ClaimsIdentity)User.Identity;
+            document.Replace("ISP", identity.Name, false, true);
+
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream, FormatType.Docx);
+            document.Close();
+            stream.Position = 0;
+            //Download Word document in the browser
+            return File(stream, "application/msword", "Служебная записка.docx");
+
+            //var contentDisposition = "attachment; filename=\"детали " + user.UserAdLogin + ".pdf\"";
+            ////HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
+            ////                .OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
+            //HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            //return View(user);
+        }
+
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -38,7 +78,6 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 return NotFound();
             }
-
             var user = await _context.Users
                 .Include(u => u.Dolzh)
                 .Include(u => u.Otdel)
@@ -48,8 +87,7 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 return NotFound();
             }
-
-            return View(user);
+            return View( user);
         }
 
         // GET: Users/Create
@@ -164,6 +202,7 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

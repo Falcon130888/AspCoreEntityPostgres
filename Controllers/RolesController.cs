@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -117,6 +118,7 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         // GET: Roles/Delete/5
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

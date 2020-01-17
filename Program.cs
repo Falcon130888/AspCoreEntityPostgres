@@ -8,7 +8,9 @@ using AspCoreEntityPostgres.DBcontext;
 
 namespace AspCoreEntityPostgres
 {
+#pragma warning disable CA1052 // “ипы статических заполнителей должны быть Static или NotInheritable
     public class Program
+#pragma warning restore CA1052 // “ипы статических заполнителей должны быть Static или NotInheritable
     {
         public static void Main(string[] args)
         {

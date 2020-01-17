@@ -1,4 +1,7 @@
 using AspCoreEntityPostgres.DBcontext;
+using jsreport.AspNetCore;
+using jsreport.Binary;
+using jsreport.Local;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,10 +38,15 @@ namespace AspCoreEntityPostgres
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Access");
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(40);
                     options.SlidingExpiration = true;
                 });
+
+            services.AddJsReport(new LocalReporting()
+                                .UseBinary(JsReportBinary.GetBinary())
+                                .AsUtility()
+                                .Create());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +62,9 @@ namespace AspCoreEntityPostgres
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk3NzA3QDMxMzcyZTM0MmUzMFhHN2ZyQWdVOUdTSlNzM2wrREdJTkp0cmQwYSs3WVdqM3VxSjRXVTJ1UzA9");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

@@ -2,3 +2,6 @@
 
 # CA1062: Проверить аргументы или открытые методы
 dotnet_diagnostic.CA1062.severity = none
+
+# CA2000: Ликвидировать объекты перед потерей области
+dotnet_diagnostic.CA2000.severity = none

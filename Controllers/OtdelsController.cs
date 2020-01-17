@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -117,6 +118,7 @@ namespace AspCoreEntityPostgres.Controllers
         }
 
         // GET: Otdels/Delete/5
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,6 +145,12 @@ namespace AspCoreEntityPostgres.Controllers
             _context.Otdels.Remove(otdel);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return RedirectToAction(nameof(Index));
+        }
+
+        //поиск по фио
+        public ActionResult GetOtdels(string id)
+        {
+            return PartialView(_context.Otdels.Where(c => c.NameOtdel.Contains(id)));
         }
 
         private bool OtdelExists(int id)

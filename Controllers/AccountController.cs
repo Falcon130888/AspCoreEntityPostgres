@@ -70,5 +70,10 @@ namespace AspCoreEntityPostgres.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).ConfigureAwait(false);
             return RedirectToAction("Login", "Account");
         }
+
+        public IActionResult Access ()
+        {
+            return View();
+        }
     }
 }

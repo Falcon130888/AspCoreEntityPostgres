@@ -111,6 +111,38 @@ namespace AspCoreEntityPostgres.Repository
                 );
                 context.SaveChanges();
             }
+
+            if(context.Memos.Any())
+            {
+                context.Memos.AddRange(
+                    new Memo
+                    {
+                        DateCreate = DateTime.Now,
+                        DateEnd = DateTime.Now,
+                        IsActive = true,
+                        Status = 1,
+                        Thema = "new thema",
+                        Content = "Hello world!",
+                        IdUserTo = 1,
+                        IdUserCopy = 1,
+                        IdUserExecutor = 1
+                    },
+                    new Memo
+                    {
+                        DateCreate = DateTime.Now,
+                        DateEnd = DateTime.Now,
+                        IsActive = true,
+                        Status = 1,
+                        Thema = "new Thema",
+                        Content = "12313",
+                        IdUserTo = 1,
+                        IdUserCopy = 1,
+                        IdUserExecutor = 1
+                    }
+                 );
+                    context.SaveChanges();
+                };
+            }
         }
     }
-}
+
