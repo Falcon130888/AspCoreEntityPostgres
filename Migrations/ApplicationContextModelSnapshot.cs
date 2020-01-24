@@ -19,6 +19,29 @@ namespace AspCoreEntityPostgres.Migrations
                 .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.CopyMemo", b =>
+                {
+                    b.Property<int>("IdCopyMemo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("IdMemo")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("integer");
+
+                    b.HasKey("IdCopyMemo");
+
+                    b.HasIndex("IdMemo")
+                        .IsUnique();
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("CopyMemos");
+                });
+
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Dolzh", b =>
                 {
                     b.Property<int>("IdDolzh")
@@ -49,39 +72,63 @@ namespace AspCoreEntityPostgres.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
-                    b.Property<int?>("CopyIdUser")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("DateEnd")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("ISPIdUser")
+                    b.Property<int>("IdStatus")
                         .HasColumnType("integer");
 
-                    b.Property<int>("IsActive")
+                    b.Property<int?>("IdUserExecutor")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("IdUserTo")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Thema")
                         .HasColumnType("text");
 
-                    b.Property<int?>("ToIdUser")
-                        .HasColumnType("integer");
-
                     b.HasKey("IdMemo");
 
-                    b.HasIndex("CopyIdUser");
+                    b.HasIndex("IdStatus");
 
-                    b.HasIndex("ISPIdUser");
+                    b.HasIndex("IdUserExecutor");
 
-                    b.HasIndex("ToIdUser");
+                    b.HasIndex("IdUserTo");
 
                     b.ToTable("Memos");
+                });
+
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.MemoFile", b =>
+                {
+                    b.Property<int>("IdMemoFile")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Format")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IdMemo")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text");
+
+                    b.HasKey("IdMemoFile");
+
+                    b.HasIndex("IdMemo")
+                        .IsUnique();
+
+                    b.ToTable("MemoFiles");
                 });
 
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Otdel", b =>
@@ -115,6 +162,21 @@ namespace AspCoreEntityPostgres.Migrations
                     b.HasKey("IdRole");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.Status", b =>
+                {
+                    b.Property<int>("IdStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("NameStatus")
+                        .HasColumnType("text");
+
+                    b.HasKey("IdStatus");
+
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Task", b =>
@@ -186,6 +248,21 @@ namespace AspCoreEntityPostgres.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.CopyMemo", b =>
+                {
+                    b.HasOne("AspCoreEntityPostgres.Models.Memo", "Memo")
+                        .WithOne("UserCopy")
+                        .HasForeignKey("AspCoreEntityPostgres.Models.CopyMemo", "IdMemo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspCoreEntityPostgres.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Dolzh", b =>
                 {
                     b.HasOne("AspCoreEntityPostgres.Models.Otdel", "Otdel")
@@ -197,17 +274,30 @@ namespace AspCoreEntityPostgres.Migrations
 
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Memo", b =>
                 {
-                    b.HasOne("AspCoreEntityPostgres.Models.User", "Copy")
+                    b.HasOne("AspCoreEntityPostgres.Models.Status", "Status")
                         .WithMany()
-                        .HasForeignKey("CopyIdUser");
+                        .HasForeignKey("IdStatus")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("AspCoreEntityPostgres.Models.User", "ISP")
+                    b.HasOne("AspCoreEntityPostgres.Models.User", "UserExecutor")
                         .WithMany()
-                        .HasForeignKey("ISPIdUser");
+                        .HasForeignKey("IdUserExecutor");
 
-                    b.HasOne("AspCoreEntityPostgres.Models.User", "To")
+                    b.HasOne("AspCoreEntityPostgres.Models.User", "UserTO")
                         .WithMany()
-                        .HasForeignKey("ToIdUser");
+                        .HasForeignKey("IdUserTo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.MemoFile", b =>
+                {
+                    b.HasOne("AspCoreEntityPostgres.Models.Memo", "Memo")
+                        .WithOne("MemoFile")
+                        .HasForeignKey("AspCoreEntityPostgres.Models.MemoFile", "IdMemo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AspCoreEntityPostgres.Models.User", b =>

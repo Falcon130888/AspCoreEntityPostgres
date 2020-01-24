@@ -1,0 +1,59 @@
+﻿@using AspCoreEntityPostgres.ViewModel
+@model ViewModelMemos
+@{
+    ViewData["Title"] = "Create";
+}
+@section scripts{<script type="text/javascript" src="~/js/createMemo.js"></script>}
+<h1>Создание</h1>
+
+<h4>Служебная записка</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" value="@DateTime.Now" asp-for="@Model.Memo.DateCreate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="IdUserTo" class="form-check-label">Кому:</label>
+                <select asp-for="@Model.Memo.IdUserTo" class="form-control select2" asp-items="ViewBag.Users">
+                    <option>Выбрать</option>
+                </select>
+            </div>
+            <input type="checkbox" id="AddCopy" class="checkbox" onclick="chk();" />
+            <label for="AddCopy" class="form-check-label">Добавить копию</label>
+            <div id="UserCopy" class="form-group" style="visibility:hidden">
+                <label for="IdUserCopy" class="form-check-label">Копия:</label>
+                <select id="IdUserCopy" class="form-control select2" asp-items="ViewBag.Users">
+                    <option>Выбрать</option>
+                </select>
+                <p id="result">Копии:</p>
+                <ul id="CopyList" class="list-group"></ul>
+            </div>
+            <div class="form-group">
+                <label for="DateEnd" class="form-check-label">Дата завершения</label>
+                <input asp-for="@Model.Memo.DateEnd" class="form-control" />
+                <span asp-validation-for="@Model.Memo.DateEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Тема</label>
+                <input asp-for="@Model.Memo.Thema" class="form-control" />
+                <span asp-validation-for="@Model.Memo.Thema" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Content" Contentclass="control-label">Содержание</label>
+                <textarea asp-for="@Model.Memo.Content" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="@Model.Memo.Content" class="text-danger"></span>
+            </div>
+            <input type="file" name="files" multiple class="form-control-file" aria-describedby="fileHelp" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" />
+            <small id="fileHelp" class="form-text text-muted">Допустимые форматы - .png, .jpg, .jpeg .pdf .doc .docx. Максиимальный размер файла 4МБ</small>
+            <div class="form-group">
+                <input id="ButtonPost" type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Вернуться к списку</a>
+</div>

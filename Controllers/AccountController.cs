@@ -57,7 +57,8 @@ namespace AspCoreEntityPostgres.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserFIO),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.NameRole)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.NameRole),
+                new Claim("IdUser", Convert.ToString(user.IdUser))
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

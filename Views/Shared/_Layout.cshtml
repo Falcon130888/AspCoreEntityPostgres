@@ -8,16 +8,17 @@
     <title>@ViewData["Title"] ZIK_ECM</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="~/lib/bootstrap/select2/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
         @{
             var identity = (ClaimsIdentity)User.Identity;
             var role = identity.FindFirst(ClaimTypes.Role).Value;
-      
-                <p>
-                     @identity.Name [@role]
-                </p>  
+
+            <p>
+                @identity.Name [@role]
+            </p>
         }
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -67,6 +68,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/select2/js/select2.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

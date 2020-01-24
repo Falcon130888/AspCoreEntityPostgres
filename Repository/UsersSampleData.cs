@@ -10,6 +10,25 @@ namespace AspCoreEntityPostgres.Repository
         public static void Initialize(ApplicationContext context)
         {
 
+            if (!context.Statuses.Any())
+            {
+                context.Statuses.AddRange(
+                    new Status
+                    {
+                        NameStatus = "Создано",
+                    },
+                    new Status
+                    {
+                        NameStatus = "Принято к выполнению",
+                    },
+                    new Status
+                    {
+                        NameStatus = "Выполнено",
+                    }
+                );
+                context.SaveChanges();
+            }
+
             if (!context.Otdels.Any())
             {
                 context.Otdels.AddRange(
@@ -120,11 +139,10 @@ namespace AspCoreEntityPostgres.Repository
                         DateCreate = DateTime.Now,
                         DateEnd = DateTime.Now,
                         IsActive = true,
-                        Status = 1,
+                        IdStatus = 1,
                         Thema = "new thema",
                         Content = "Hello world!",
                         IdUserTo = 1,
-                        IdUserCopy = 1,
                         IdUserExecutor = 1
                     },
                     new Memo
@@ -132,11 +150,10 @@ namespace AspCoreEntityPostgres.Repository
                         DateCreate = DateTime.Now,
                         DateEnd = DateTime.Now,
                         IsActive = true,
-                        Status = 1,
+                        IdStatus = 1,
                         Thema = "new Thema",
                         Content = "12313",
                         IdUserTo = 1,
-                        IdUserCopy = 1,
                         IdUserExecutor = 1
                     }
                  );

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AspCoreEntityPostgres.Models.Memo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Служебные записки</h1>
+
+<p>
+    <a asp-action="Create">Создать новую</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thema)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserExecutor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Thema)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.NameStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserTO.UserFIO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserExecutor.UserFIO)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdMemo">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.IdMemo">Детали</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdMemo">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,66 @@
+﻿@model AspCoreEntityPostgres.Models.Memo
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Memo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdMemo" />
+            <div class="form-group">
+                <label asp-for="DateCreate" class="control-label"></label>
+                <input asp-for="DateCreate" class="form-control" />
+                <span asp-validation-for="DateCreate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateEnd" class="control-label"></label>
+                <input asp-for="DateEnd" class="form-control" />
+                <span asp-validation-for="DateEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Thema" class="control-label"></label>
+                <input asp-for="Thema" class="form-control" />
+                <span asp-validation-for="Thema" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="IdStatus" class="form-control" asp-items="ViewBag.IdStatus"></select>
+                <span asp-validation-for="IdStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserTO" class="control-label"></label>
+                <select asp-for="IdUserTo" class="form-control" asp-items="ViewBag.IdUserTo"></select>
+                <span asp-validation-for="IdUserTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserExecutor" class="control-label"></label>
+                <select asp-for="IdUserExecutor" class="form-control" asp-items="ViewBag.IdUserExecutor"></select>
+                <span asp-validation-for="IdUserExecutor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
