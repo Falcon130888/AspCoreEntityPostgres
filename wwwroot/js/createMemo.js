@@ -1,24 +1,25 @@
-﻿function AddCopy() {
-    var e = document.getElementById("IdUserCopy");
-    var result = e.options[e.selectedIndex].value;
-
-    document.getElementById("result").innerHTML = result;
-}
-function chk() {
+﻿function chk() {
     var chk = document.getElementById('AddCopy');
     if (chk.checked) {
         document.getElementById('UserCopy').style.visibility = 'visible';
     }
     else {
-        document.getElementById('UserCopy').style.visibility = 'hidden';
+        document.getElementById('UserCopy').style.visibility = 'collapse';
     }
 }
+
 $(document).ready(function () {
     $("#IdUserCopy").change(function () {
         var Selected = $('#IdUserCopy option:selected')
-        $("#CopyList").append($("<li name='CopyItems' class='list-group-item' value='" + Selected.val() + "'>").text(Selected.text()));
+        $("#CopyList").append('<li  name="CopyItems"  class="list-group-item" value="'
+            + Selected.val() + '"><a  class="itemDelete">' + Selected.text() + '<span class="tooltiptext">удалить</span></a></li>');
     });
-    $('.select2').select2();
+    $('#CopyList').on('click', '.itemDelete', function () {
+        $(this).closest('li').remove();
+    });
+    $('#CopyList').on('click', '.itemDelete', function () {
+        $(this).closest('li').remove();
+    });
     $("#ButtonPost").on("click", function () {
         var listName = "CopyItems";
         var qtd = 0;
@@ -29,4 +30,5 @@ $(document).ready(function () {
             qtd += 1;
         });
     });
+    $('.select2').select2();
 });

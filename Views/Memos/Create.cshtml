@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-@section scripts{<script type="text/javascript" src="~/js/createMemo.js"></script>}
+@section scripts{
+    <script type="text/javascript" src="~/js/createMemo.js"></script>
+}
 <h1>Создание</h1>
 
 <h4>Служебная записка</h4>
@@ -23,12 +25,11 @@
             </div>
             <input type="checkbox" id="AddCopy" class="checkbox" onclick="chk();" />
             <label for="AddCopy" class="form-check-label">Добавить копию</label>
-            <div id="UserCopy" class="form-group" style="visibility:hidden">
+            <div id="UserCopy" class="form-group" style="visibility:collapse;">
                 <label for="IdUserCopy" class="form-check-label">Копия:</label>
                 <select id="IdUserCopy" class="form-control select2" asp-items="ViewBag.Users">
                     <option>Выбрать</option>
                 </select>
-                <p id="result">Копии:</p>
                 <ul id="CopyList" class="list-group"></ul>
             </div>
             <div class="form-group">
@@ -46,6 +47,11 @@
                 <textarea asp-for="@Model.Memo.Content" class="form-control" rows="3"></textarea>
                 <span asp-validation-for="@Model.Memo.Content" class="text-danger"></span>
             </div>
+
+                <div class="fallback dropzone">
+                    <input name="file" type="file" multiple />
+                </div>
+
             <input type="file" name="files" multiple class="form-control-file" aria-describedby="fileHelp" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" />
             <small id="fileHelp" class="form-text text-muted">Допустимые форматы - .png, .jpg, .jpeg .pdf .doc .docx. Максиимальный размер файла 4МБ</small>
             <div class="form-group">

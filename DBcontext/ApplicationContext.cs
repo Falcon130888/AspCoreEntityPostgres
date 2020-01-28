@@ -11,7 +11,7 @@ namespace AspCoreEntityPostgres.DBcontext
         public DbSet<Dolzh> Dolzhs { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Memo> Memos { get; set; }
-        public DbSet<CopyMemo> CopyMemos { get; set; } 
+        public DbSet<MemoCopy> MemoCopies { get; set; } 
         public DbSet<MemoFile> MemoFiles { get; set; }
         public DbSet<Status> Statuses { get; set; }
 
@@ -22,7 +22,7 @@ namespace AspCoreEntityPostgres.DBcontext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql("Host='192.168.0.9';Port=5432;Database=ZIK_ECM;Username=postgres;Password='(#$Pa$$w0rd$#)'");
+            //optionsBuilder.UseNpgsql("Host=192.168.0.9;Port=5432;Database=ZIK_ECM;Username=postgres;Password=(#$Pa$$w0rd$#)");
             optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=ZIK_ECM;Username=postgres;Password=2030");
         }
     }

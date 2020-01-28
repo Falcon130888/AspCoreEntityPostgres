@@ -105,7 +105,7 @@ namespace AspCoreEntityPostgres.Controllers
                 
                 foreach (string IdCopy in CopyItems)
                 {
-                    CopyMemo copy = new CopyMemo
+                    MemoCopy copy = new MemoCopy
                     {
                         IdUser = _context.Users.FirstOrDefault(x => x.IdUser == Convert.ToInt32(IdCopy)).IdUser ,
                         IdMemo = memo.IdMemo
@@ -203,6 +203,14 @@ namespace AspCoreEntityPostgres.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            IEnumerable<MemoFile> memoFiles = _context.MemoFiles.Where(x => x.IdMemo == id);
+            foreach (var MemoFile in memoFiles)
+            {
+                if (System.IO.File.Exists(_appEnvironment.WebRootPath + MemoFile.Path))
+                {
+                    System.IO.File.Delete(_appEnvironment.WebRootPath + MemoFile.Path);
+                }
+            }
             var memo = await _context.Memos.FindAsync(id);
             _context.Memos.Remove(memo);
             await _context.SaveChangesAsync().ConfigureAwait(false);

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AspCoreEntityPostgres.Models
 {
@@ -8,5 +9,7 @@ namespace AspCoreEntityPostgres.Models
         public int IdOtdel { get; set; }
         public string NameOtdel { get; set; }
         public string LeadOtdel { get; set; }
+
+        public List<Dolzh> Dolzhs { get; set; }
     }
 }

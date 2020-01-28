@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -40,14 +41,14 @@ namespace AspCoreEntityPostgres.Models
         [ForeignKey("IdUserExecutor")]
         public User UserExecutor { get; set; }
 
-        public CopyMemo UserCopy { get; set; }
-        public MemoFile MemoFile { get; set; }
+        public List<MemoCopy> CopyList { get; }
+        public List<MemoFile> MemoFiles { get; }
     }
 
-    public class CopyMemo
+    public class MemoCopy
     {
         [Key]
-        public int IdCopyMemo { get; set; }
+        public int IdMemoCopy { get; set; }
 
         public int IdMemo { get; set; }
         [ForeignKey("IdMemo")]

@@ -13,7 +13,7 @@ namespace AspCoreEntityPostgres.Models
         public string UserLogin { get; set; }
         public int UserConf { get; set; }
 
-        // Foregein keys
+        // Foreign keys
         [ForeignKey("Otdel")]
         public int IdOtdel { get; set; }
         public Otdel Otdel { get; set; }
