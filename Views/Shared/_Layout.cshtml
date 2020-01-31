@@ -14,8 +14,8 @@
 <body>
     <header>
         @{
-                var identity = (ClaimsIdentity)User.Identity;
-                var role = identity.FindFirst(ClaimTypes.Role).Value;
+            var identity = (ClaimsIdentity)User.Identity;
+            var role = identity.FindFirst(ClaimTypes.Role).Value;
             <p>
                 @identity.Name [@role]
             </p>
@@ -69,7 +69,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/select2/js/select2.min.js"></script>
-    <script src="~/js/dropzone.js"></script>
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

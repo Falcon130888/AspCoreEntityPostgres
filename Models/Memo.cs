@@ -24,6 +24,8 @@ namespace AspCoreEntityPostgres.Models
         public string Thema { get; set; }
 
         [Display(Name = "Содержание")]
+        [DataType(DataType.MultilineText)]
+        [UIHint("DisplayForContent")]
         public string Content { get; set; }
 
         public int IdStatus { get; set; }
@@ -41,7 +43,7 @@ namespace AspCoreEntityPostgres.Models
         [ForeignKey("IdUserExecutor")]
         public User UserExecutor { get; set; }
 
-        public List<MemoCopy> CopyList { get; }
+        public List<MemoCopy> MemoCopies { get; }
         public List<MemoFile> MemoFiles { get; }
     }
 

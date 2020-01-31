@@ -786,3 +786,11 @@ tr.pager td {
 .list-group-item:hover .tooltiptext {
     visibility: visible;
 }
+
+.list-copy-item:hover .tooltiptext {
+    visibility: visible;
+}
+
+.multiline {
+    /*white-space: pre-wrap;*/
+}

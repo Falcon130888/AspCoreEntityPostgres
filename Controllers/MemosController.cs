@@ -44,12 +44,13 @@ namespace AspCoreEntityPostgres.Controllers
                 .Include(m => m.Status)
                 .Include(m => m.UserExecutor)
                 .Include(m => m.UserTO)
+                .Include(m => m.MemoFiles)
+                .Include(m => m.MemoCopies).Include("MemoCopies.User")
                 .FirstOrDefaultAsync(m => m.IdMemo == id).ConfigureAwait(false);
             if (memo == null)
             {
                 return NotFound();
             }
-
             return View(memo);
         }
 
@@ -64,7 +65,7 @@ namespace AspCoreEntityPostgres.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(List<string> CopyItems, List<IFormFile> files, [Bind("IdMemo,DateCreate,DateEnd,IsActive,Thema,Content,IdStatus,IdUserTo,IdUserExecutor")] Memo memo)
+        public async Task<IActionResult> Create(string Content, List<string> CopyItems, List<IFormFile> files, [Bind("IdMemo,DateCreate,DateEnd,IsActive,Thema,Content,IdStatus,IdUserTo,IdUserExecutor")] Memo memo)
         {
             string IdUser = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "IdUser")?.Value;
 
@@ -74,7 +75,7 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 memo.IdUserExecutor = Convert.ToInt32(IdUser);
             }
-        
+
             if (ModelState.IsValid)
             {
                 _context.Add(memo);

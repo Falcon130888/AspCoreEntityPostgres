@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace AspCoreEntityPostgres
 {
@@ -27,6 +28,8 @@ namespace AspCoreEntityPostgres
         {
             services.AddControllersWithViews();
             services.AddMvc();
+
+            services.Configure<KestrelServerOptions>( Configuration.GetSection("Kestrel"));
 
             // получаем строку подключения из файла конфигурации
             string connection = Configuration.GetConnectionString("DefaultConnection");

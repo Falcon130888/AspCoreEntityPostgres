@@ -10,6 +10,6 @@ namespace AspCoreEntityPostgres.Models
         public string NameOtdel { get; set; }
         public string LeadOtdel { get; set; }
 
-        public List<Dolzh> Dolzhs { get; set; }
+        public List<Dolzh> Dolzhs { get;}
     }
 }

@@ -7,5 +7,7 @@ namespace AspCoreEntityPostgres.ViewModel
     {
         public Memo Memo { get; set; }
         public IEnumerable<User> Users { get; set; }
+        public IEnumerable<MemoCopy> MemoCopies { get; set; }
+        public IEnumerable<MemoFile> MemoFiles { get; set; }
     }
 }
