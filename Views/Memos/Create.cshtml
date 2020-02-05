@@ -7,7 +7,6 @@
     <script type="text/javascript" src="~/js/createMemo.js"></script>
 }
 
-
 <h1>Создание</h1>
 
 <h4>Служебная записка</h4>
@@ -45,13 +44,13 @@
                 <span asp-validation-for="@Model.Memo.Thema" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="Content" Contentclass="control-label">Содержание</label>
                 <div id="toolbar-container"></div>
-                <div id="editor"name="Content">
+                <div id="editor" name="Content">
                     <p>Введите текст служебной записки</p>
                 </div>
-                <label for="Content" Contentclass="control-label">Содержание</label>
-                <textarea asp-for="@Model.Memo.Content" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="@Model.Memo.Content" class="text-danger"></span>
+                <input type="hidden" id="Content" asp-for="@Model.Memo.Content" />
+                @*<textarea id="Content" asp-for="@Model.Memo.Content" class="form-control" rows="3"></textarea>*@
             </div>
             <input type="file" name="files" multiple class="form-control-file" aria-describedby="fileHelp" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx" />
             <small id="fileHelp" class="form-text text-muted">Допустимые форматы - .png, .jpg, .jpeg .pdf .doc .docx. Максиимальный размер файла 4МБ</small>

@@ -22,12 +22,13 @@ $(document).ready(function () {
     });
     $("#ButtonPost").on("click", function () {
         var listName = "CopyItems";
-        var qtd = 0;
         var items = $('#CopyList>li');
-        $.each(items, function (index) {
+        var ContentHTML = $("#editor").html();
+        var ContentText = $("#editor").text();
+        $("#Content").val(ContentHTML);
+        $.each(items, function () {
             var Id = $(this).val();
             $("#UserCopy").prepend("<input type='hidden' name='" + listName + "' value='" + Id + "' />");
-            qtd += 1;
         });
     });
     $('.select2').select2();

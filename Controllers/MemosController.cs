@@ -69,6 +69,11 @@ namespace AspCoreEntityPostgres.Controllers
         {
             string IdUser = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "IdUser")?.Value;
 
+            //string FilePath1 = Path.GetFileNameWithoutExtension(files[0].FileName);
+            //FilePath1 = "/Files/Memos/" + FilePath1.Trim() + Path.GetExtension(files[0].FileName);
+            //ModelState.AddModelError(String.Empty, _appEnvironment.WebRootPath + FilePath1);
+            //return View();
+
             memo.IsActive = true;
             memo.IdStatus = 1;
             if (IdUser != null)
@@ -89,7 +94,7 @@ namespace AspCoreEntityPostgres.Controllers
 
                         string FilePath = Path.GetFileNameWithoutExtension(file.FileName);
                         string FileExtension = Path.GetExtension(file.FileName);
-                        FilePath = "/Files/Memos/" + memo.IdMemo.ToString() + "-" + FilePath.Trim() + FileExtension;
+                        FilePath = "\\Files\\Memos\\" + memo.IdMemo.ToString() + "-" + FilePath.Trim() + FileExtension;
 
                         // сохраняем файл в папку Files в каталоге wwwroot
                         using var fileStream = new FileStream(_appEnvironment.WebRootPath + FilePath, FileMode.Create);
@@ -119,6 +124,14 @@ namespace AspCoreEntityPostgres.Controllers
             ViewData["IdStatus"] = new SelectList(_context.Statuses, "IdStatus", "IdStatus");
             ViewData["Users"] = new SelectList(_context.Users, "IdUser", "UserFIO");
             return View(memo);
+        }
+
+        // Download file
+        public FileResult Download(int id)
+        {
+            MemoFile memoFile = _context.MemoFiles.FirstOrDefault(m => m.IdMemoFile == id);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(_appEnvironment.WebRootPath + memoFile.Path);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, memoFile.FileName);
         }
 
         // GET: Memos/Edit/5

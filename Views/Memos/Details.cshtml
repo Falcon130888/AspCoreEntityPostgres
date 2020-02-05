@@ -38,7 +38,8 @@
             @Html.DisplayNameFor(model => model.Content)
         </dt>
         <dd class="col-sm-10 multiline">
-            @Html.DisplayFor(model => model.Content)
+            @Html.Raw(@Model.Content)
+           @* @Html.DisplayFor(model => model.Content)*@
         </dd>
         <dt class="col-sm-2">
             Статус документа
@@ -78,9 +79,9 @@
                     @{
                         foreach (MemoFile File in Model.MemoFiles)
                         {
-                            <li name="CopyItem" class="list-copy-item" value="@File.IdMemoFile">
-                                <a href="@File.Path" class="itemDelete" target="_blank"> @File.FileName <span class="tooltiptext">скачать</span></a>
-                            </li>
+                                        <li name="CopyItem" class="list-copy-item" value="@File.IdMemoFile">
+                                            <a href="@Url.Action("Download", "Memos", new { id = @File.IdMemoFile})" class="itemDelete" target="_blank"> @File.FileName <span class="tooltiptext">скачать</span></a>
+                                        </li>
                         }
                     }
                 </ul>
