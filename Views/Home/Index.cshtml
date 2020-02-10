@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<AspCoreEntityPostgres.Models.Memo>
+
+@{
     ViewData["Title"] = "Главная страница";
 }
 <!DOCTYPE html>
@@ -9,21 +11,20 @@
 <body>
     <h3>Добро пожаловать в ZIK_ECM</h3>
     <div class="row mb-4">
-        <div class="col-1 themed-grid-col"><b>№</b></div>
-        <div class="col-2 themed-grid-col"><b>ФИО</b></div>
-        <div class="col-1 themed-grid-col"><b>Логин</b></div>
-        <div class="col-3 themed-grid-col"><b>Действия</b></div>
+        <div class="col-1 themed-grid-col"><b>Тема</b></div>
+        <div class="col-2 themed-grid-col"><b>Статус</b></div>
+        <div class="col-1 themed-grid-col"><b>Исполнитель</b></div>
     </div>
-    @foreach (var User in ViewBag.Users)
+    @foreach (var memo in Model)
     {
         <div class="row mb-4">
-            <div class="col-1 themed-grid-col">@User.IdUser</div>
-            <div class="col-2 themed-grid-col">@User.UserFIO</div>
-            <div class="col-1 themed-grid-col">@User.UserAdLogin</div>
-            <div class="col-3 themed-grid-col">
-                <form method="get" action="Home/NewTask">
-                    <input type="hidden" id="" value="@User.IdUser " name="IdUser" />
-                    <input type="submit" value="Создать задачу" />
+            <div class="col-1 themed-grid-col">@memo.Thema</div>
+            <div class="col-1 themed-grid-col">@memo.Status.NameStatus</div>
+            <div class="col-1 themed-grid-col">@memo.UserExecutor.UserFIO</div>
+            <div class="col-2 themed-grid-col">
+                <form method="get" action="Memos/Details">
+                    <input type="hidden" value="@memo.IdMemo" name="id" />
+                    <input type="submit" value="Посмотреть" />
                 </form>
             </div>
         </div>

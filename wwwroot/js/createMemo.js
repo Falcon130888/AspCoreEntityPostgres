@@ -17,9 +17,6 @@ $(document).ready(function () {
     $('#CopyList').on('click', '.itemDelete', function () {
         $(this).closest('li').remove();
     });
-    $('#CopyList').on('click', '.itemDelete', function () {
-        $(this).closest('li').remove();
-    });
     $("#ButtonPost").on("click", function () {
         var listName = "CopyItems";
         var items = $('#CopyList>li');

@@ -35,7 +35,7 @@ namespace AspCoreEntityPostgres.Repository
                     new Otdel
                     {
                         NameOtdel = "Канцелярия",
-                        LeadOtdel = "Иванов",
+                        IdLeadOtdel = 1,
                     }
                 );
                 context.SaveChanges();

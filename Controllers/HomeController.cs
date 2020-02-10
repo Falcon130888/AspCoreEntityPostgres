@@ -6,6 +6,9 @@ using AspCoreEntityPostgres.Models;
 using AspCoreEntityPostgres.DBcontext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using System.Collections.Generic;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -20,9 +23,10 @@ namespace AspCoreEntityPostgres.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            ViewData["Users"] = db.Users.ToList();
-            ViewData["UserFIO"] = User.Identity.Name;
-            return View();
+            // Мои заявки 
+            int IdUserLogin = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "IdUser")?.Value);
+            IEnumerable<Memo> Memos = db.Memos.Where(m => m.IdUserTo == IdUserLogin).Include(st => st.Status).Include(ex => ex.UserExecutor);
+            return View(Memos);
         }
 
         [HttpGet]

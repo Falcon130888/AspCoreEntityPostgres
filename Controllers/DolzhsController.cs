@@ -37,15 +37,12 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 return NotFound();
             }
-
-            var dolzh = await _context.Dolzhs
+            var dolzh = await _context.Dolzhs.Include(m => m.Otdel).ThenInclude( m => m.LeadOtdel)
                 .FirstOrDefaultAsync(m => m.IdDolzh == id).ConfigureAwait(false);
             if (dolzh == null)
             {
                 return NotFound();
             }
-            _context.Entry(dolzh).Reference(c => c.Otdel).Load();
-
             return View(dolzh);
         }
 

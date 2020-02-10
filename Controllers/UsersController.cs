@@ -13,8 +13,8 @@ using jsreport.Types;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
-using Syncfusion.DocIO;
-using Syncfusion.DocIO.DLS;
+//using Syncfusion.DocIO;
+//using Syncfusion.DocIO.DLS;
 using System.Security.Claims;
 
 namespace AspCoreEntityPostgres.Controllers
@@ -50,25 +50,25 @@ namespace AspCoreEntityPostgres.Controllers
             .Include(u => u.Role)
             .FirstOrDefaultAsync(m => m.IdUser == IdUser).ConfigureAwait(false);
 
-            FileStream fileStream = new FileStream(@"Files/SZ1.docx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            WordDocument document = new WordDocument(fileStream, FormatType.Automatic);
-            document.Replace("ToFIODolzh", user.UserFIO + " - " + user.Dolzh.NameDolzh, false, true);
+            //FileStream fileStream = new FileStream(@"Files/SZ1.docx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            //WordDocument document = new WordDocument(fileStream, FormatType.Automatic);
+            //document.Replace("ToFIODolzh", user.UserFIO + " - " + user.Dolzh.NameDolzh, false, true);
 
-            var identity = (ClaimsIdentity)User.Identity;
-            document.Replace("ISP", identity.Name, false, true);
+            //var identity = (ClaimsIdentity)User.Identity;
+            //document.Replace("ISP", identity.Name, false, true);
 
-            MemoryStream stream = new MemoryStream();
-            document.Save(stream, FormatType.Docx);
-            document.Close();
-            stream.Position = 0;
-            //Download Word document in the browser
-            return File(stream, "application/msword", "Служебная записка.docx");
+            //MemoryStream stream = new MemoryStream();
+            //document.Save(stream, FormatType.Docx);
+            //document.Close();
+            //stream.Position = 0;
+            ////Download Word document in the browser
+            //return File(stream, "application/msword", "Служебная записка.docx");
 
-            //var contentDisposition = "attachment; filename=\"детали " + user.UserAdLogin + ".pdf\"";
-            ////HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
-            ////                .OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
-            //HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
-            //return View(user);
+            var contentDisposition = "attachment; filename=\"детали " + user.UserAdLogin + ".pdf\"";
+            //HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf)
+            //                .OnAfterRender((r) => HttpContext.Response.Headers["Content-Disposition"] = contentDisposition);
+            HttpContext.JsReportFeature().Recipe(Recipe.ChromePdf);
+            return View(user);
         }
 
         // GET: Users/Details/5

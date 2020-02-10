@@ -7,9 +7,7 @@ using AspCoreEntityPostgres.Repository;
 using AspCoreEntityPostgres.DBcontext;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore;
-using System.IO;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 
 namespace AspCoreEntityPostgres
 {

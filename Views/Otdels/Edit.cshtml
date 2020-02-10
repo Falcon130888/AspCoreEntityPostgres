@@ -1,9 +1,12 @@
 ﻿@model AspCoreEntityPostgres.Models.Otdel
-
-@{
-    ViewData["Title"] = "Edit";
+@{ViewData["Title"] = "Edit";}
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        $('.select2').select2();
+    });
+    </script>
 }
-
 <h1>Изменить</h1>
 
 <h4>Отдел</h4>
@@ -20,8 +23,7 @@
             </div>
             <div class="form-group">
                 Руководитель
-                <input asp-for="LeadOtdel" class="form-control" />
-                <span asp-validation-for="LeadOtdel" class="text-danger"></span>
+                <select asp-for="IdLeadOtdel" class="form-control select2" asp-items="ViewBag.IdLeadOtdel"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />
@@ -33,4 +35,3 @@
 <div>
     <a asp-action="Index">К списку отделов</a>
 </div>
-

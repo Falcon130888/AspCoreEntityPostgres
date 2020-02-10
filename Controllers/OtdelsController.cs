@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspCoreEntityPostgres.DBcontext;
 using AspCoreEntityPostgres.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AspCoreEntityPostgres.Controllers
 {
@@ -23,7 +23,7 @@ namespace AspCoreEntityPostgres.Controllers
         // GET: Otdels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Otdels.ToListAsync().ConfigureAwait(false));
+            return View(await _context.Otdels.Include(m => m.LeadOtdel).ToListAsync().ConfigureAwait(false));
         }
 
         // GET: Otdels/Details/5
@@ -34,7 +34,7 @@ namespace AspCoreEntityPostgres.Controllers
                 return NotFound();
             }
 
-            var otdel = await _context.Otdels
+            var otdel = await _context.Otdels.Include(m => m.LeadOtdel)
                 .FirstOrDefaultAsync(m => m.IdOtdel == id).ConfigureAwait(false);
             if (otdel == null)
             {
@@ -47,6 +47,7 @@ namespace AspCoreEntityPostgres.Controllers
         // GET: Otdels/Create
         public IActionResult Create()
         {
+            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "UserFIO");
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace AspCoreEntityPostgres.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_Otdel,NameOtdel,LeadOtdel")] Otdel otdel)
+        public async Task<IActionResult> Create([Bind("Id_Otdel,NameOtdel,IdLeadOtdel")] Otdel otdel)
         {
             if (ModelState.IsValid)
             {
@@ -73,8 +74,9 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 return NotFound();
             }
-
             var otdel = await _context.Otdels.FindAsync(id);
+            ViewData["IdLeadOtdel"] = new SelectList(_context.Users, "IdUser", "UserFIO", otdel.IdLeadOtdel);
+
             if (otdel == null)
             {
                 return NotFound();
@@ -87,7 +89,7 @@ namespace AspCoreEntityPostgres.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdOtdel,NameOtdel,LeadOtdel")] Otdel otdel)
+        public async Task<IActionResult> Edit(int id, [Bind("IdOtdel,NameOtdel,IdLeadOtdel")] Otdel otdel)
         {
             if (id != otdel.IdOtdel)
             {

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AspCoreEntityPostgres.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200127041311_memocopy")]
-    partial class memocopy
+    [Migration("20200207032839_NameOfMyUpdate")]
+    partial class NameOfMyUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -138,13 +138,16 @@ namespace AspCoreEntityPostgres.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("LeadOtdel")
-                        .HasColumnType("text");
+                    b.Property<int?>("IdLeadOtdel")
+                        .HasColumnType("integer");
 
                     b.Property<string>("NameOtdel")
                         .HasColumnType("text");
 
                     b.HasKey("IdOtdel");
+
+                    b.HasIndex("IdLeadOtdel")
+                        .IsUnique();
 
                     b.ToTable("Otdels");
                 });
@@ -216,6 +219,9 @@ namespace AspCoreEntityPostgres.Migrations
                     b.Property<int>("IdDolzh")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("IdLeadOtdel")
+                        .HasColumnType("integer");
+
                     b.Property<int>("IdOtdel")
                         .HasColumnType("integer");
 
@@ -251,7 +257,7 @@ namespace AspCoreEntityPostgres.Migrations
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Dolzh", b =>
                 {
                     b.HasOne("AspCoreEntityPostgres.Models.Otdel", "Otdel")
-                        .WithMany()
+                        .WithMany("Dolzhs")
                         .HasForeignKey("IdOtdel")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -279,7 +285,7 @@ namespace AspCoreEntityPostgres.Migrations
             modelBuilder.Entity("AspCoreEntityPostgres.Models.MemoCopy", b =>
                 {
                     b.HasOne("AspCoreEntityPostgres.Models.Memo", "Memo")
-                        .WithMany()
+                        .WithMany("MemoCopies")
                         .HasForeignKey("IdMemo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -294,10 +300,17 @@ namespace AspCoreEntityPostgres.Migrations
             modelBuilder.Entity("AspCoreEntityPostgres.Models.MemoFile", b =>
                 {
                     b.HasOne("AspCoreEntityPostgres.Models.Memo", "Memo")
-                        .WithMany()
+                        .WithMany("MemoFiles")
                         .HasForeignKey("IdMemo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.Otdel", b =>
+                {
+                    b.HasOne("AspCoreEntityPostgres.Models.User", "LeadOtdel")
+                        .WithOne()
+                        .HasForeignKey("AspCoreEntityPostgres.Models.Otdel", "IdLeadOtdel");
                 });
 
             modelBuilder.Entity("AspCoreEntityPostgres.Models.User", b =>

@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace AspCoreEntityPostgres
 {
@@ -28,8 +27,6 @@ namespace AspCoreEntityPostgres
         {
             services.AddControllersWithViews();
             services.AddMvc();
-
-            services.Configure<KestrelServerOptions>( Configuration.GetSection("Kestrel"));
 
             // получаем строку подключения из файла конфигурации
             string connection = Configuration.GetConnectionString("DefaultConnection");
@@ -65,9 +62,7 @@ namespace AspCoreEntityPostgres
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk3NzA3QDMxMzcyZTM0MmUzMFhHN2ZyQWdVOUdTSlNzM2wrREdJTkp0cmQwYSs3WVdqM3VxSjRXVTJ1UzA9");
-
+//Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTk3NzA3QDMxMzcyZTM0MmUzMFhHN2ZyQWdVOUdTSlNzM2wrREdJTkp0cmQwYSs3WVdqM3VxSjRXVTJ1UzA9");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
