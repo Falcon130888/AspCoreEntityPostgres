@@ -17,7 +17,7 @@ namespace AspCoreEntityPostgres.Controllers
     public class MemosController : Controller
     {
         private readonly ApplicationContext _context;
-        IWebHostEnvironment _appEnvironment;
+        private readonly IWebHostEnvironment _appEnvironment;
 
         public MemosController(ApplicationContext context, IWebHostEnvironment appEnvironment)
         {
@@ -65,14 +65,9 @@ namespace AspCoreEntityPostgres.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string Content, List<string> CopyItems, List<IFormFile> files, [Bind("IdMemo,DateCreate,DateEnd,IsActive,Thema,Content,IdStatus,IdUserTo,IdUserExecutor")] Memo memo)
+        public async Task<IActionResult> Create(List<string> CopyItems, List<IFormFile> files, [Bind("IdMemo,DateCreate,DateEnd,IsActive,Thema,Content,IdStatus,IdUserTo,IdUserExecutor")] Memo memo)
         {
             string IdUser = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "IdUser")?.Value;
-
-            //string FilePath1 = Path.GetFileNameWithoutExtension(files[0].FileName);
-            //FilePath1 = "/Files/Memos/" + FilePath1.Trim() + Path.GetExtension(files[0].FileName);
-            //ModelState.AddModelError(String.Empty, _appEnvironment.WebRootPath + FilePath1);
-            //return View();
 
             memo.IsActive = true;
             memo.IdStatus = 1;
@@ -85,6 +80,42 @@ namespace AspCoreEntityPostgres.Controllers
             {
                 _context.Add(memo);
                 await _context.SaveChangesAsync().ConfigureAwait(false);
+
+                User UserExecutor =  _context.Users.FirstOrDefault(id => id.IdUser == memo.IdUserExecutor);
+                User UserTo = _context.Users.FirstOrDefault(id => id.IdUser == memo.IdUserTo);
+
+                Otdel LeadExecutor = _context.Otdels.Where(u => u.IdOtdel == UserExecutor.IdOtdel).FirstOrDefault();
+                Otdel LeadTo = _context.Otdels.Where(u => u.IdOtdel == UserTo.IdOtdel).FirstOrDefault();
+
+                if (LeadExecutor != null)
+                {
+                    if (LeadExecutor.IdLeadOtdel != memo.IdUserExecutor)
+                    {
+                        MemoSignatory memoSignatory = new MemoSignatory
+                        {
+                            Sign = 0,
+                            IdMemo = memo.IdMemo,
+                            IdUser = (int)LeadExecutor.IdLeadOtdel
+                        };
+                        _context.Add(memoSignatory);
+                        await _context.SaveChangesAsync().ConfigureAwait(false);
+                    }
+                }
+
+                if (LeadTo != null)
+                {
+                    if (LeadTo.IdLeadOtdel != memo.IdUserTo)
+                    {
+                        MemoSignatory memoSignatory = new MemoSignatory
+                        {
+                            Sign = 0,
+                            IdMemo = memo.IdMemo,
+                            IdUser = (int)LeadTo.IdLeadOtdel
+                        };
+                        _context.Add(memoSignatory);
+                        await _context.SaveChangesAsync().ConfigureAwait(false);
+                    }
+                }
 
                 foreach (IFormFile file in files)
                 {

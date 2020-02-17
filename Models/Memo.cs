@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspCoreEntityPostgres.Models
 {
+
     public class Memo
     {
         [Key]
@@ -15,6 +16,7 @@ namespace AspCoreEntityPostgres.Models
         public DateTime DateCreate { get; set; }
 
         [Display(Name = "Дата дата завершения")]
+        [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
 
         [Display(Name = "Активна")]
@@ -45,6 +47,35 @@ namespace AspCoreEntityPostgres.Models
 
         public List<MemoCopy> MemoCopies { get; }
         public List<MemoFile> MemoFiles { get; }
+    }
+
+    public class MemoSignatory
+    {
+        public enum SignEnum
+        {
+            Ожидается,
+            Подписано,
+            Отклонено,
+        }
+
+        [Key]
+        public int IdMemoSignatory { get; set; }
+
+        [Display(Name = "Подпись")]
+        public SignEnum Sign { get; set; }
+
+        public int IdMemo { get; set; }
+        [ForeignKey("IdMemo")]
+        [Display(Name = "Служебная записка")]
+        public Memo Memo { get; set; }
+
+        [Display(Name = "Комментарии")]
+        public string Comments { get; set; }
+
+        public int IdUser { get; set; }
+        [Display(Name = "Подписант")]
+        [ForeignKey("IdUser")]
+        public User User { get; set; }
     }
 
     public class MemoCopy

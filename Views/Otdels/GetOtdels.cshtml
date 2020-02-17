@@ -8,7 +8,7 @@
                 @Html.DisplayFor(modelItem => item.NameOtdel)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdLeadOtdel)
+                @Html.DisplayFor(modelItem => item.LeadOtdel.UserFIO)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdOtdel">Изменить</a> |

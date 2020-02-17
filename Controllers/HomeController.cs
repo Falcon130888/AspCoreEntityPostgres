@@ -41,25 +41,6 @@ namespace AspCoreEntityPostgres.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult NewTask(int? IdUser)
-        {
-            if (IdUser == null) return RedirectToAction("Index");
-            ViewBag.IdUser = IdUser;
-            return View();
-        }
-
-        [HttpPost]
-        public string NewTask(Models.Task task)
-        {
-
-            db.Tasks.Add(task);
-            // сохраняем в бд все изменения
-            db.SaveChanges();
-            if (task !=null) return "Задача, " + task.NameTask + ", создана!";
-            return "не удалось создать задачу!";
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

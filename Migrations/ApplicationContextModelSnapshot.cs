@@ -129,6 +129,34 @@ namespace AspCoreEntityPostgres.Migrations
                     b.ToTable("MemoFiles");
                 });
 
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.MemoSignatory", b =>
+                {
+                    b.Property<int>("IdMemoSignatory")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("text");
+
+                    b.Property<int>("IdMemo")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Sign")
+                        .HasColumnType("integer");
+
+                    b.HasKey("IdMemoSignatory");
+
+                    b.HasIndex("IdMemo");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("MemoSignatories");
+                });
+
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Otdel", b =>
                 {
                     b.Property<int>("IdOtdel")
@@ -144,8 +172,7 @@ namespace AspCoreEntityPostgres.Migrations
 
                     b.HasKey("IdOtdel");
 
-                    b.HasIndex("IdLeadOtdel")
-                        .IsUnique();
+                    b.HasIndex("IdLeadOtdel");
 
                     b.ToTable("Otdels");
                 });
@@ -215,9 +242,6 @@ namespace AspCoreEntityPostgres.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("IdDolzh")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("IdLeadOtdel")
                         .HasColumnType("integer");
 
                     b.Property<int>("IdOtdel")
@@ -304,11 +328,26 @@ namespace AspCoreEntityPostgres.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AspCoreEntityPostgres.Models.MemoSignatory", b =>
+                {
+                    b.HasOne("AspCoreEntityPostgres.Models.Memo", "Memo")
+                        .WithMany()
+                        .HasForeignKey("IdMemo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspCoreEntityPostgres.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AspCoreEntityPostgres.Models.Otdel", b =>
                 {
                     b.HasOne("AspCoreEntityPostgres.Models.User", "LeadOtdel")
-                        .WithOne()
-                        .HasForeignKey("AspCoreEntityPostgres.Models.Otdel", "IdLeadOtdel");
+                        .WithMany()
+                        .HasForeignKey("IdLeadOtdel");
                 });
 
             modelBuilder.Entity("AspCoreEntityPostgres.Models.User", b =>

@@ -152,7 +152,11 @@ namespace AspCoreEntityPostgres.Controllers
         //поиск по фио
         public ActionResult GetOtdels(string id)
         {
-            return PartialView(_context.Otdels.Where(c => c.NameOtdel.Contains(id)));
+            if(id == null)
+            {
+                return PartialView(_context.Otdels.Include(m => m.LeadOtdel));
+            }
+            return PartialView(_context.Otdels.Include(m => m.LeadOtdel).Where(c => c.NameOtdel.Contains(id)));
         }
 
         private bool OtdelExists(int id)

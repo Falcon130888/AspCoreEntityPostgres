@@ -24,6 +24,10 @@ namespace AspCoreEntityPostgres.Repository
                     new Status
                     {
                         NameStatus = "Выполнено",
+                    },
+                    new Status
+                    {
+                        NameStatus = "На согласовании",
                     }
                 );
                 context.SaveChanges();

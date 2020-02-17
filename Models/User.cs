@@ -7,10 +7,15 @@ namespace AspCoreEntityPostgres.Models
     {
         [Key]
         public int IdUser { get; set; }
+        [Display(Name = "ФИО")]
         public string UserFIO { get; set; }
+        [Display(Name = "Логин ОС")]
         public string UserAdLogin { get; set; }
+        [Display(Name = "Пароль")]
         public string UserPassword { get; set; }
+        [Display(Name = "Логин")]
         public string UserLogin { get; set; }
+        [Display(Name = "Конфигурация")]
         public int UserConf { get; set; }
 
         // Foreign keys
